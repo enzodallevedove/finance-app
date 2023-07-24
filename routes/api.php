@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentOptionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(PaymentOptionController::class)->group(function () {
+    Route::get('/paymentoptions', 'index');
+    Route::get('/paymentoption/{id}', 'show');
+    Route::post('/paymentoption', 'store');
+    Route::put('/paymentoption/{id}', 'update');
+    Route::delete('/paymentoption/{id}', 'destroy');
 });
