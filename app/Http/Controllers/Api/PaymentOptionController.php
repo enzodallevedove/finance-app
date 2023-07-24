@@ -19,6 +19,7 @@ class PaymentOptionController extends Controller
     {
         $paymentOption = new PaymentOption;
         $paymentOption->fill($request->all());
+        $paymentOption->user_id = $request->user_id;
         $paymentOption->save();
 
         return response()->json($paymentOption, 201);
