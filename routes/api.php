@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PaymentOptionController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,12 @@ Route::controller(PaymentOptionController::class)->group(function () {
     Route::post('/paymentoption', 'store');
     Route::put('/paymentoption/{id}', 'update');
     Route::delete('/paymentoption/{id}', 'destroy');
+});
+
+Route::controller(TransactionController::class)->group(function () {
+    Route::get('/transactions', 'index');
+    Route::get('/transaction/{id}', 'show');
+    Route::post('/transaction', 'store');
+    Route::put('/transaction/{id}', 'update');
+    Route::delete('/transaction/{id}', 'destroy');
 });
