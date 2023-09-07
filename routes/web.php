@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PaymentOptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.list_pages');
 });
+
+
+Route::resource('paymentoptions', PaymentOptionController::class);
+Route::resource('transactions', TransactionController::class);

@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Layout */
+div#main {
+    height: 100%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.column-left {
+    background-color: #f0f0f0;
+}
+
+.column-center {
+    background-color: #e0e0e0;
+    flex: 2;
+    /* Make the center column larger */
+}
+
+.column-right {
+    background-color: #f0f0f0;
+}
+
+/* /Layout */
+
+/* Footer */
+footer div#copyright {
+    height: 100%;
+    text-align: center;
+}
+
+/* /Footer */
+
+/* Payment Options */
+.payment-options-table {
+    width: 100%;
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+.payment-options-table thead tr th {
+    padding: 8px;
+    text-align: center;
+}
+
+.payment-options-table th,
+.payment-options-table td {
+    padding: 8px;
+}
+
+.payment-options-table .wider-column {
+    width: 85%;
+    /* Make the Name column wider */
+    text-align: center;
+}
+
+.payment-options-table .crud-icons {
+    width: 15%;
+    /* Keep the Actions column narrower */
+    text-align: center;
+}
+
+.payment-options-table .crud-icons button {
+    margin-right: 5px;
+}
+
+/* Optional: Style the buttons */
+.payment-options-table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* /Payment Options */
+
+/* Transacitons */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+.transactions-table thead tr th {
+    padding: 8px;
+    text-align: center;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+.transactions-table .wider-column {
+    /* width: 100%; */
+    /* Make the Name column wider */
+    text-align: center;
+}
+
+.transactions-table .crud-icons {
+    width: 15%;
+    /* Keep the Actions column narrower */
+    text-align: center;
+}
+
+.transactions-table .crud-icons button {
+    margin-right: 5px;
+}
+
+/* Optional: Style the buttons */
+.transactions-table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* /Transacitons */
