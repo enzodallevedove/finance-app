@@ -23,7 +23,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
+        $token = Auth('api')->attempt($credentials);
 
         if (!$token) {
             return response()->json([
