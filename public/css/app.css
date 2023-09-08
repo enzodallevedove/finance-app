@@ -150,3 +150,48 @@ footer div#copyright {
 }
 
 /* /Transacitons */
+
+/* Bills */
+.bills-table {
+    width: 100%;
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+.bills-table thead tr th {
+    padding: 8px;
+    text-align: center;
+}
+
+.bills-table th,
+.bills-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+.bills-table .wider-column {
+    /* width: 100%; */
+    /* Make the Name column wider */
+    text-align: center;
+}
+
+.bills-table .crud-icons {
+    width: 15%;
+    /* Keep the Actions column narrower */
+    text-align: center;
+}
+
+.bills-table .crud-icons button {
+    margin-right: 5px;
+}
+
+/* Optional: Style the buttons */
+.bills-table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* /Bills */

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentOptionController;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('paymentoptions', PaymentOptionController::class);
     Route::resource('transactions', TransactionController::class);
+    Route::resource('bills', BillController::class);
 });
 
 require __DIR__.'/auth.php';
