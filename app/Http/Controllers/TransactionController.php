@@ -10,6 +10,6 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::orderBy('id', 'asc')->paginate(10);
-        return view('pages.transactions', compact('transactions'));
+        return view('transactions', compact('transactions'));
     }
 }
