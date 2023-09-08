@@ -10,6 +10,6 @@ class PaymentOptionController extends Controller
     public function index()
     {
         $paymentOptions = PaymentOption::orderBy('id','desc')->paginate(5);
-        return view('pages.paymentoptions', compact('paymentOptions'));
+        return view('paymentoptions', compact('paymentOptions'));
     }
 }
