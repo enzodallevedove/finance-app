@@ -10,10 +10,10 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'value', 'description', 'date'];
+    protected $fillable = ['name', 'value', 'description', 'date', 'paymentoption_id'];
 
     public function paymentOption(): BelongsTo
     {
-        return $this->belongsTo(PaymentOption::class);
+        return $this->belongsTo(PaymentOption::class, 'paymentoption_id');
     }
 }
