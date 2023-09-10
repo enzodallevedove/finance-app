@@ -49,6 +49,31 @@
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
+                        <div class="mt-4">
+                            <x-input-label for="balance" :value="__('Balance')" />
+
+                            <x-text-input id="balance" type="number" name="balance" step="0.01" required
+                                autocomplete="balance" class="block mt-1 w-full" />
+
+                            <x-input-error :messages="$errors->get('balance')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="parent_id" :value="__('Parent')" />
+
+                            <select name="parent_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="">{{ __('None') }}</option>
+                                @foreach ($paymentOptions as $paymentOption)
+                                <option value="{{ $paymentOption->id }}"
+                                    @selected(old('paymentOption')==$paymentOption)>
+                                    {{ $paymentOption->name }}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            <x-input-error :messages="$errors->get('parent_id')" class="mt-2" />
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150">
                                 {{ __('Return') }}

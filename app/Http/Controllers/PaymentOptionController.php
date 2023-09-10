@@ -23,7 +23,10 @@ class PaymentOptionController extends Controller
      */
     public function create()
     {
-        return view('paymentoptions.create');
+        $paymentOptions = Auth::user()->paymentOptions;
+        $paymentOptions->sortByDesc('id');
+
+        return view('paymentoptions.create', compact('paymentOptions'));
     }
 
     /**
