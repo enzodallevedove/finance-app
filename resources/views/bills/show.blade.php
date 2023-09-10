@@ -15,6 +15,14 @@
                             {{ __('Delete') }}
                         </x-danger-button>
 
+                        <form method="POST" action="{{ route('bills.markaspaid', ['id' => $bill->id]) }}">
+                            @csrf
+                            @method('post')
+                            <x-primary-button class="ml-4">
+                                {{ __('Mark as paid!') }}
+                            </x-primary-button>
+                        </form>
+
                         <x-modal name="confirm-bill-deletion" focusable>
                             <form method="post"
                                 action="{{ route('bills.destroy', ['bill' => $bill->id]) }}"

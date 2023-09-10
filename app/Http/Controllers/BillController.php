@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TransactionController;
 
 class BillController extends Controller
 {
+    public function __construct(
+        private TransactionController $transactionController
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
@@ -82,5 +88,19 @@ class BillController extends Controller
         $bill->delete();
 
         return $this->index();
+    }
+
+    public function markAsPaid(Request $request, string $id)
+    {
+        $bill = Bill::findOrFail($id);
+        $transaction = new Transaction;
+        $transaction->name = $bill->name;
+        $transaction->value = -(abs($bill->value));
+        $transaction->description = $bill->description;
+        $transaction->date = date("Y-m-d H:i:s");
+        $transaction->paymentoption_id = $bill->paymentoption_id;
+        $transaction->save();
+
+        return $this->transactionController->index();
     }
 }

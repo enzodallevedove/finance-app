@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('paymentoptions', PaymentOptionController::class);
     Route::resource('transactions', TransactionController::class);
     Route::resource('bills', BillController::class);
+    Route::post('bills/markaspaid/{id}', [BillController::class, 'markAsPaid'])->name('bills.markaspaid');
 });
 
 require __DIR__.'/auth.php';
