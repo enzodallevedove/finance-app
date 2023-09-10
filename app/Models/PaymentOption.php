@@ -11,7 +11,7 @@ class PaymentOption extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'balance', 'parent_id'];
 
     public function user(): BelongsTo
     {

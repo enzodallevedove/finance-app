@@ -14,12 +14,19 @@ return new class extends Migration
         Schema::create('payment_options', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->float('balance')->default(0);
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('payment_options')
                 ->onDelete('cascade');
         });
     }
