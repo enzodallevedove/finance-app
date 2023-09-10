@@ -63,10 +63,10 @@
 
                             <select name="parent_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                 <option value="">{{ __('None') }}</option>
-                                @foreach ($paymentOptions as $paymentOption)
-                                <option value="{{ $paymentOption->id }}"
-                                    @selected(old('paymentOption')==$paymentOption)>
-                                    {{ $paymentOption->name }}
+                                @foreach ($paymentOptions as $defaultPaymentOption)
+                                <option value="{{ $defaultPaymentOption->id }}"
+                                    @selected($paymentOption->parent_id == $defaultPaymentOption->id)>
+                                    {{ $defaultPaymentOption->name }}
                                 </option>
                                 @endforeach
                             </select>
