@@ -48,8 +48,9 @@ class PaymentOptionController extends Controller
     public function show(string $id)
     {
         $paymentOption = PaymentOption::findOrFail($id);
+        $paymentOptions = Auth::user()->paymentOptions;
 
-        return view('paymentoptions.show', compact('paymentOption'));
+        return view('paymentoptions.show', compact('paymentOption', 'paymentOptions'));
     }
 
     /**
