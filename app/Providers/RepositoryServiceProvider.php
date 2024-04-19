@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\BillRepositoryInterface;
 use App\Repositories\BillRepository;
+use App\Interfaces\PaymentOptionRepositoryInterface;
+use App\Repositories\PaymentOptionRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             BillRepositoryInterface::class,
             BillRepository::class
+        );
+        $this->app->bind(
+            PaymentOptionRepositoryInterface::class,
+            PaymentOptionRepository::class
         );
     }
 
