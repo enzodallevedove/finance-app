@@ -6,9 +6,17 @@ use App\Models\PaymentOption;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\TransactionRepositoryInterface;
+use App\Interfaces\PaymentOptionRepositoryInterface;
 
 class TransactionController extends Controller
 {
+    public function __construct(
+        private TransactionRepositoryInterface $transactionRepository,
+        private PaymentOptionRepositoryInterface $paymentOptionRepository
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -36,12 +44,14 @@ class TransactionController extends Controller
     {
         $transaction = new Transaction;
         $transaction->fill($request->all());
-        $transaction->save();
+
+        $this->transactionRepository->save($transaction);
 
         $paymentOption = $transaction->paymentOption;
         $paymentOption->balance = $paymentOption->balance + $transaction->value;
-        $paymentOption->save();
-        
+
+        $this->paymentOptionRepository->save($paymentOption);
+
         return $this->index();
     }
 
@@ -50,7 +60,7 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        $transaction = Transaction::findOrFail($id);
+        $transaction = $this->transactionRepository->getById($id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('transactions.show', compact('transaction', 'paymentOptions'));
@@ -69,9 +79,10 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $transaction = Transaction::findOrFail($id);
+        $transaction = $this->transactionRepository->getById($id);
         $transaction->fill($request->all());
-        $transaction->save();
+
+        $this->transactionRepository->save($transaction);
 
         return $this->index();
     }
@@ -81,8 +92,7 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        $transaction = Transaction::findOrFail($id);
-        $transaction->delete();
+        $this->transactionRepository->deleteById($id);
 
         return $this->index();
     }
