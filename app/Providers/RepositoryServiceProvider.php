@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\BillRepositoryInterface;
+use App\Repositories\BillRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,10 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            BillRepositoryInterface::class,
+            BillRepository::class
+        );
     }
 
     /**
