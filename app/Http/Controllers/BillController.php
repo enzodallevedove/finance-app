@@ -7,13 +7,11 @@ use App\Interfaces\BillRepositoryInterface;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\TransactionController;
 use App\Models\PaymentOption;
 
 class BillController extends Controller
 {
     public function __construct(
-        private TransactionController $transactionController,
         private BillRepositoryInterface $billReposiory
     ) {
     }
@@ -109,7 +107,6 @@ class BillController extends Controller
         $paymentOption->balance = $paymentOption->balance + $transaction->value;
         $paymentOption->save();
 
-
-        return $this->transactionController->index();
+        return redirect()->route('transactions.index');
     }
 }
