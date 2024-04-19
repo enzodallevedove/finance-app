@@ -7,6 +7,8 @@ use App\Interfaces\BillRepositoryInterface;
 use App\Repositories\BillRepository;
 use App\Interfaces\PaymentOptionRepositoryInterface;
 use App\Repositories\PaymentOptionRepository;
+use App\Interfaces\TransactionRepositoryInterface;
+use App\Repositories\TransactionRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             PaymentOptionRepositoryInterface::class,
             PaymentOptionRepository::class
+        );
+        $this->app->bind(
+            TransactionRepositoryInterface::class,
+            TransactionRepository::class
         );
     }
 
