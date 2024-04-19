@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Interfaces\BillRepositoryInterface;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,8 @@ use App\Models\PaymentOption;
 class BillController extends Controller
 {
     public function __construct(
-        private TransactionController $transactionController
+        private TransactionController $transactionController,
+        private BillRepositoryInterface $billReposiory
     ) {
     }
     /**
@@ -44,7 +46,8 @@ class BillController extends Controller
         $bill = new Bill;
         $bill->fill($request->all());
         $bill->user_id = Auth::user()->id;
-        $bill->save();
+
+        $this->billReposiory->save($bill);
 
         return $this->index();
     }
@@ -54,7 +57,7 @@ class BillController extends Controller
      */
     public function show(string $id)
     {
-        $bill = Bill::findOrFail($id);
+        $bill = $this->billReposiory->getById($id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('bills.show', compact('bill', 'paymentOptions'));
@@ -73,9 +76,10 @@ class BillController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $bill = Bill::findOrFail($id);
+        $bill = $this->billReposiory->getById($id);
         $bill->fill($request->all());
-        $bill->save();
+
+        $this->billReposiory->save($bill);
 
         return $this->index();
     }
@@ -85,15 +89,14 @@ class BillController extends Controller
      */
     public function destroy(string $id)
     {
-        $bill = Bill::findOrFail($id);
-        $bill->delete();
+        $this->billReposiory->deleteById($id);
 
         return $this->index();
     }
 
     public function markAsPaid(Request $request, string $id)
     {
-        $bill = Bill::findOrFail($id);
+        $bill = $this->billReposiory->getById($id);
         $transaction = new Transaction;
         $transaction->name = $bill->name;
         $transaction->value = -(abs($bill->value));
