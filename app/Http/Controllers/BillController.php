@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TransactionController;
+use App\Models\PaymentOption;
 
 class BillController extends Controller
 {
@@ -100,6 +101,11 @@ class BillController extends Controller
         $transaction->date = date("Y-m-d H:i:s");
         $transaction->paymentoption_id = $bill->paymentoption_id;
         $transaction->save();
+
+        $paymentOption = PaymentOption::findOrFail($bill->paymentoption_id);
+        $paymentOption->balance = $paymentOption->balance + $transaction->value;
+        $paymentOption->save();
+
 
         return $this->transactionController->index();
     }
