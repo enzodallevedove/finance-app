@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PaymentOption;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\PaymentOptionRepositoryInterface;
 
 class PaymentOptionController extends Controller
 {
+    public function __construct(
+        private PaymentOptionRepositoryInterface $paymentOptionRepository
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -15,6 +21,7 @@ class PaymentOptionController extends Controller
     {
         $paymentOptions = Auth::user()->paymentOptions;
         $paymentOptions->sortByDesc('id');
+
         return view('paymentoptions', compact('paymentOptions'));
     }
 
@@ -37,7 +44,8 @@ class PaymentOptionController extends Controller
         $paymentOption = new PaymentOption;
         $paymentOption->fill($request->all());
         $paymentOption->user_id = Auth::user()->id;
-        $paymentOption->save();
+
+        $this->paymentOptionRepository->save($paymentOption);
 
         return $this->index();
     }
@@ -47,7 +55,7 @@ class PaymentOptionController extends Controller
      */
     public function show(string $id)
     {
-        $paymentOption = PaymentOption::findOrFail($id);
+        $paymentOption = $this->paymentOptionRepository->getById($id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('paymentoptions.show', compact('paymentOption', 'paymentOptions'));
@@ -66,9 +74,10 @@ class PaymentOptionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $paymentOption = PaymentOption::findOrFail($id);
+        $paymentOption = $this->paymentOptionRepository->getById($id);
         $paymentOption->fill($request->all());
-        $paymentOption->save();
+
+        $this->paymentOptionRepository->save($paymentOption);
 
         return $this->index();
     }
@@ -78,8 +87,7 @@ class PaymentOptionController extends Controller
      */
     public function destroy(string $id)
     {
-        $paymentOption = PaymentOption::findOrFail($id);
-        $paymentOption->delete();
+        $this->paymentOptionRepository->deleteById($id);
 
         return $this->index();
     }
