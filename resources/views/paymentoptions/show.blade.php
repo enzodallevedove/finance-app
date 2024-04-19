@@ -52,8 +52,8 @@
                         <div class="mt-4">
                             <x-input-label for="balance" :value="__('Balance')" />
 
-                            <x-text-input id="balance" type="number" name="balance" step="0.01" required
-                                autocomplete="balance" class="block mt-1 w-full" />
+                            <x-text-input id="balance" type="number" name="balance" :value="$paymentOption->balance"
+                                step="0.01" required autocomplete="balance" class="block mt-1 w-full" />
 
                             <x-input-error :messages="$errors->get('balance')" class="mt-2" />
                         </div>
