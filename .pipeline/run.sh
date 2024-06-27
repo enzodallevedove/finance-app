@@ -1,10 +1,9 @@
 #!/bin/bash
 
-run -e
-
 process_file() {
     local file=$1
     echo "-------------------- Processing file: $file --------------------"
+    
     ./vendor/bin/phpcbf --standard=PSR12 $file --colors
     ./vendor/bin/phpcs --standard=PSR12 $file --colors
     ./vendor/bin/phpmd $file text .pipeline/phpmd-ruleset.xml 
@@ -13,8 +12,11 @@ process_file() {
 
 process_directory() {
     local dir=$1
-    echo "Processing directory: $dir"
-    # Add your directory processing commands here
+
+    echo "-------------------- Processing directory: $dir --------------------"
+
+    ./vendor/bin/psalm $dir
+
     for file in "$dir"/*; do
         if [ -f "$file" ]; then
             process_file "$file"
@@ -25,6 +27,10 @@ process_directory() {
 }
 
 # Main script logic
+if [ ! -e psalm.xml ]; then
+    ./vendor/bin/psalm --init
+fi
+
 for item in "$@"; do
     if [ -f "$item" ]; then
         process_file "$item"
@@ -34,3 +40,5 @@ for item in "$@"; do
         echo "Invalid input: $item is neither a file nor a directory"
     fi
 done
+
+echo "End"
