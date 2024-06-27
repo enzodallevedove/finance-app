@@ -11,7 +11,7 @@ interface BillRepositoryInterface
     /**
      * @param int $id
      * @return Bill
-     * 
+     *
      * @throws ModelNotFoundException
      */
     public function getById(int $id): Bill;
@@ -19,7 +19,7 @@ interface BillRepositoryInterface
     /**
      * @param Bill $bill
      * @return Bill
-     * 
+     *
      * @throws Exception
      */
     public function save(Bill $bill): Bill;
@@ -27,7 +27,7 @@ interface BillRepositoryInterface
     /**
      * @param int $id
      * @return bool
-     * 
+     *
      * @throws ModelNotFoundException
      * @throws Exception
      */

@@ -11,7 +11,7 @@ interface TransactionRepositoryInterface
     /**
      * @param int $id
      * @return Transaction
-     * 
+     *
      * @throws ModelNotFoundException
      */
     public function getById(int $id): Transaction;
@@ -19,7 +19,7 @@ interface TransactionRepositoryInterface
     /**
      * @param Transaction $transaction
      * @return Transaction
-     * 
+     *
      * @throws Exception
      */
     public function save(Transaction $transaction): Transaction;
@@ -27,7 +27,7 @@ interface TransactionRepositoryInterface
     /**
      * @param int $id
      * @return bool
-     * 
+     *
      * @throws ModelNotFoundException
      * @throws Exception
      */

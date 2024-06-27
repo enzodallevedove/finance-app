@@ -11,7 +11,7 @@ interface PaymentOptionRepositoryInterface
     /**
      * @param int $id
      * @return PaymentOption
-     * 
+     *
      * @throws ModelNotFoundException
      */
     public function getById(int $id): PaymentOption;
@@ -19,7 +19,7 @@ interface PaymentOptionRepositoryInterface
     /**
      * @param PaymentOption $paymentOption
      * @return PaymentOption
-     * 
+     *
      * @throws Exception
      */
     public function save(PaymentOption $paymentOption): PaymentOption;
@@ -27,7 +27,7 @@ interface PaymentOptionRepositoryInterface
     /**
      * @param int $id
      * @return bool
-     * 
+     *
      * @throws ModelNotFoundException
      * @throws Exception
      */
