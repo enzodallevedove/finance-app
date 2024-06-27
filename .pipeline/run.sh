@@ -2,9 +2,10 @@
 
 process_file() {
     local file=$1
-    echo "Processing file: $file"
+    echo "-------------------- Processing file: $file --------------------"
     ./vendor/bin/phpcbf --standard=PSR12 $file --colors
     ./vendor/bin/phpcs --standard=PSR12 $file --colors
+    ./vendor/bin/phpmd $file text .pipeline/phpmd-ruleset.xml 
 }
 
 process_directory() {
