@@ -17,7 +17,7 @@ class TransactionController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $transaction = new Transaction;
+        $transaction = new Transaction();
         $transaction->fill($request->all());
         $transaction->paymentoption_id = $request->paymentoption_id;
         $transaction->save();

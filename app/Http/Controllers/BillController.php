@@ -41,7 +41,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $bill = new Bill;
+        $bill = new Bill();
         $bill->fill($request->all());
         $bill->user_id = Auth::user()->id;
 
@@ -95,7 +95,7 @@ class BillController extends Controller
     public function markAsPaid(Request $request, string $id)
     {
         $bill = $this->billReposiory->getById($id);
-        $transaction = new Transaction;
+        $transaction = new Transaction();
         $transaction->name = $bill->name;
         $transaction->value = -(abs($bill->value));
         $transaction->description = $bill->description;

@@ -17,7 +17,7 @@ class PaymentOptionController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $paymentOption = new PaymentOption;
+        $paymentOption = new PaymentOption();
         $paymentOption->fill($request->all());
         $paymentOption->user_id = $request->user_id;
         $paymentOption->save();

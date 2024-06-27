@@ -41,7 +41,7 @@ class PaymentOptionController extends Controller
      */
     public function store(Request $request)
     {
-        $paymentOption = new PaymentOption;
+        $paymentOption = new PaymentOption();
         $paymentOption->fill($request->all());
         $paymentOption->user_id = Auth::user()->id;
 

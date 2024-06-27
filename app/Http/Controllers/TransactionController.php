@@ -42,7 +42,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $transaction = new Transaction;
+        $transaction = new Transaction();
         $transaction->fill($request->all());
 
         $this->transactionRepository->save($transaction);
