@@ -22,7 +22,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Auth::user()->paymentOptions->flatMap->transactions;
+        $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('created_at');
 
         return view('transactions', compact('transactions'));
     }
