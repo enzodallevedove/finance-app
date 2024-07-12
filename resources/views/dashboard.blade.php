@@ -12,14 +12,14 @@
 					{{ __("You're logged in!") }}
 				</div>
 				<div class="p-6 text-gray-900 dark:text-gray-100">
-					<canvas id="my-canvas"></canvas>
+					<canvas id="current-assets"></canvas>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		const ctx = document.getElementById('my-canvas');
+		const ctx = document.getElementById('current-assets');
 
 		new Chart(ctx, {
 			type: 'bar',
