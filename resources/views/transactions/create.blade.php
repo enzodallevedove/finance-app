@@ -54,7 +54,7 @@
                                 @foreach ($paymentOptions as $paymentOption)
                                 <option value="{{ $paymentOption->id }}"
                                     @selected(old('paymentOption')==$paymentOption)>
-                                    {{ $paymentOption->name }}
+                                    {{ $paymentOption->name }} | {{'R$ ' . number_format($paymentOption->balance, 2, ',', '.')}}
                                 </option>
                                 @endforeach
                             </select>

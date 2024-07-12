@@ -79,6 +79,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('paymentoptions.index')" :active="request()->routeIs('paymentoptions.index')">
+                {{ __('Payment Options') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
+                {{ __('Transactions') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('bills.index')" :active="request()->routeIs('bills.index')">
+                {{ __('Bills') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
