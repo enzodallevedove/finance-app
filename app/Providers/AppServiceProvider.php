@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\CreateBillTransactionService;
 use App\Services\UpdatePaymentOptionBalanceService;
+use App\Interfaces\CreateBillTransactionServiceInterface;
 use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UpdatePaymentOptionBalanceServiceInterface::class,
             UpdatePaymentOptionBalanceService::class
+        );
+
+        $this->app->bind(
+            CreateBillTransactionServiceInterface::class,
+            CreateBillTransactionService::class
         );
     }
 
