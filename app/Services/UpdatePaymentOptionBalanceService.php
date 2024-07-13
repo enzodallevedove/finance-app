@@ -34,7 +34,7 @@ class UpdatePaymentOptionBalanceService implements UpdatePaymentOptionBalanceSer
 
         $newBalance = $value > 0
             ? $currentBalance + $value
-            : $currentBalance - $value;
+            : $currentBalance - abs($value);
 
         $paymentOption->balance = $newBalance;
 
