@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create Transaction') }}
+            {{ __('Create Transfer') }}
         </h2>
     </x-slot>
 
@@ -10,19 +10,12 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="w-full flex justify-end mt-4 mb-10">
-                        <a href="{{ route('transactions.transfer.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                            {{ __('Transfer') }}
+                        <a href="{{ route('transactions.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                            {{ __('Normal Transaction') }}
                         </a>
                     </div>
-                    <form method="POST" action="{{ route('transactions.store') }}">
+                    <form method="POST" action="{{ route('transactions.transfer.store') }}">
                         @csrf
-
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <x-text-input id="name" type="text" name="name" :value="old('name')" required autofocus
-                                autocomplete="name" class="block mt-1 w-full" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        </div>
 
                         <div class="mt-4">
                             <x-input-label for="value" :value="__('Value')" />
@@ -52,9 +45,25 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="paymentoption_id" :value="__('Payment Option')" />
+                            <x-input-label for="paymentoption_origin_id" :value="__('Origin')" />
 
-                            <select name="paymentoption_id" required
+                            <select name="paymentoption_origin_id" required
+                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                @foreach ($paymentOptions as $paymentOption)
+                                <option value="{{ $paymentOption->id }}"
+                                    @selected(old('paymentOption')==$paymentOption)>
+                                    {{ $paymentOption->name }} | {{'R$ ' . number_format($paymentOption->balance, 2, ',', '.')}}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            <x-input-error :messages="$errors->get('paymentoption_id')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="paymentoption_destination_id" :value="__('Destination')" />
+
+                            <select name="paymentoption_destination_id" required
                                 class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                 @foreach ($paymentOptions as $paymentOption)
                                 <option value="{{ $paymentOption->id }}"
