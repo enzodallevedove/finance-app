@@ -35,7 +35,7 @@
                                         <h4>{{ $paymentOption->name }}</h4>
                                     </td>
                                     <td class="wider-column">
-                                        <h4 @if ($paymentOption->balance > 0) style="color: green" @else style="color:red"
+                                        <h4 @if ($paymentOption->balance >= 0) style="color: green" @else style="color:red"
                                         @endif>{{ 'R$ ' . number_format($paymentOption->balance, 2, ',', '.') }}</h4>
                                     </td>
                                     <td class="crud-icons">
