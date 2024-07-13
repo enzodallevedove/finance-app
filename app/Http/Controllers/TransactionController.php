@@ -80,9 +80,18 @@ class TransactionController extends Controller
     public function update(Request $request, string $id)
     {
         $transaction = $this->transactionRepository->getById($id);
+
+        $oldValue = $transaction->value;
+        $newValue = $request->value;
+
         $transaction->fill($request->all());
 
         $this->transactionRepository->save($transaction);
+
+        $this->updatePaymentOptionBalanceService->execute(
+            $transaction->paymentOption,
+            $oldValue - $newValue
+        );
 
         return $this->index();
     }
