@@ -26,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
             CreateBillTransactionServiceInterface::class,
             CreateBillTransactionService::class
         );
+
+        $this->app->bind(
+            CreateTransferTransactionsServiceInterface::class,
+            CreateTransferTransactionsService::class
+        );
     }
 
     /**
