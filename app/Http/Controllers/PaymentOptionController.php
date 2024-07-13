@@ -57,7 +57,7 @@ class PaymentOptionController extends Controller
      */
     public function show(string $id)
     {
-        $paymentOption = $this->paymentOptionRepository->getById($id);
+        $paymentOption = $this->paymentOptionRepository->getById((int) $id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('paymentoptions.show', compact('paymentOption', 'paymentOptions'));
@@ -76,7 +76,7 @@ class PaymentOptionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $paymentOption = $this->paymentOptionRepository->getById($id);
+        $paymentOption = $this->paymentOptionRepository->getById((int) $id);
         $paymentOption->fill($request->all());
 
         $this->paymentOptionRepository->save($paymentOption);
@@ -89,7 +89,7 @@ class PaymentOptionController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->paymentOptionRepository->deleteById($id);
+        $this->paymentOptionRepository->deleteById((int) $id);
 
         return $this->index();
     }

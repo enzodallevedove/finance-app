@@ -142,7 +142,7 @@ class BillController extends Controller
      */
     public function markAsPaid(Request $request, string $id)
     {
-        $bill = $this->billRepository->getById($id);
+        $bill = $this->billRepository->getById((int) $id);
         $paymentOption = $this->paymentOptionRepository->getById($bill->paymentoption_id);
 
         $value = $bill->value;

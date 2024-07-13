@@ -62,7 +62,7 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        $transaction = $this->transactionRepository->getById($id);
+        $transaction = $this->transactionRepository->getById((int) $id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('transactions.show', compact('transaction', 'paymentOptions'));
@@ -81,7 +81,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $transaction = $this->transactionRepository->getById($id);
+        $transaction = $this->transactionRepository->getById((int) $id);
 
         $oldValue = $transaction->value;
         $newValue = $request->value;
@@ -103,12 +103,12 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        $transaction = $this->transactionRepository->getById($id);
+        $transaction = $this->transactionRepository->getById((int) $id);
 
         $transactionValue = $transaction->value;
         $paymentOption = $transaction->paymentOption;
 
-        $this->transactionRepository->deleteById($id);
+        $this->transactionRepository->deleteById((int) $id);
 
         $this->updatePaymentOptionBalanceService->execute($paymentOption, $transactionValue);
 
