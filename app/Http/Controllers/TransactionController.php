@@ -101,7 +101,14 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
+        $transaction = $this->transactionRepository->getById($id);
+
+        $transactionValue = $transaction->value;
+        $paymentOption = $transaction->paymentOption;
+
         $this->transactionRepository->deleteById($id);
+
+        $this->updatePaymentOptionBalanceService->execute($paymentOption, $transactionValue);
 
         return $this->index();
     }
