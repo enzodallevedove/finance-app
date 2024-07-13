@@ -12,7 +12,7 @@ use App\Models\PaymentOption;
 class BillController extends Controller
 {
     public function __construct(
-        private BillRepositoryInterface $billReposiory
+        private BillRepositoryInterface $billRepository
     ) {
     }
     /**
@@ -45,7 +45,7 @@ class BillController extends Controller
         $bill->fill($request->all());
         $bill->user_id = Auth::user()->id;
 
-        $this->billReposiory->save($bill);
+        $this->billRepository->save($bill);
 
         return $this->index();
     }
@@ -55,7 +55,7 @@ class BillController extends Controller
      */
     public function show(string $id)
     {
-        $bill = $this->billReposiory->getById($id);
+        $bill = $this->billRepository->getById($id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('bills.show', compact('bill', 'paymentOptions'));
@@ -74,10 +74,10 @@ class BillController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $bill = $this->billReposiory->getById($id);
+        $bill = $this->billRepository->getById($id);
         $bill->fill($request->all());
 
-        $this->billReposiory->save($bill);
+        $this->billRepository->save($bill);
 
         return $this->index();
     }
@@ -87,14 +87,14 @@ class BillController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->billReposiory->deleteById($id);
+        $this->billRepository->deleteById($id);
 
         return $this->index();
     }
 
     public function markAsPaid(Request $request, string $id)
     {
-        $bill = $this->billReposiory->getById($id);
+        $bill = $this->billRepository->getById($id);
         $transaction = new Transaction();
         $transaction->name = $bill->name;
         $transaction->value = -(abs($bill->value));
