@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
-use App\Interfaces\BillRepositoryInterface;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\PaymentOption;
+use Illuminate\Http\RedirectResponse;
+use App\Interfaces\BillRepositoryInterface;
+use App\Interfaces\CreateBillTransactionServiceInterface;
+use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
+use App\Interfaces\PaymentOptionRepositoryInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class BillController extends Controller
 {
     public function __construct(
-        private BillRepositoryInterface $billRepository
+        private BillRepositoryInterface $billRepository,
+        private CreateBillTransactionServiceInterface $createBillTransactionService,
+        private UpdatePaymentOptionBalanceServiceInterface $updatePaymentOptionBalanceService,
+        private PaymentOptionRepositoryInterface $paymentOptionRepository
     ) {
     }
     /**
@@ -92,20 +100,24 @@ class BillController extends Controller
         return $this->index();
     }
 
+    /**
+     * Summary of markAsPaid
+     *
+     * @param Request $request
+     * @param string $id
+     * @return mixed|RedirectResponse
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function markAsPaid(Request $request, string $id)
     {
         $bill = $this->billRepository->getById($id);
-        $transaction = new Transaction();
-        $transaction->name = $bill->name;
-        $transaction->value = -(abs($bill->value));
-        $transaction->description = $bill->description;
-        $transaction->date = date("Y-m-d H:i:s");
-        $transaction->paymentoption_id = $bill->paymentoption_id;
-        $transaction->save();
+        $paymentOption = $this->paymentOptionRepository->getById($bill->paymentoption_id);
 
-        $paymentOption = PaymentOption::findOrFail($bill->paymentoption_id);
-        $paymentOption->balance = $paymentOption->balance + $transaction->value;
-        $paymentOption->save();
+        $value = $bill->value;
+
+        $this->createBillTransactionService->execute($bill);
+        $this->updatePaymentOptionBalanceService->execute($paymentOption, $value);
 
         return redirect()->route('transactions.index');
     }
