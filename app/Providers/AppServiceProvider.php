@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Services\CreateBillTransactionService;
 use App\Services\UpdatePaymentOptionBalanceService;
+use App\Services\CreateTransferTransactionsService;
 use App\Interfaces\CreateBillTransactionServiceInterface;
 use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
+use App\Interfaces\CreateTransferTransactionsServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
