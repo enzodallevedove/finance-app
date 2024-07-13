@@ -11,6 +11,7 @@ use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\PaymentOptionRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -19,7 +20,8 @@ class TransferController extends Controller
 {
     public function __construct(
         private TransactionRepositoryInterface $transactionRepository,
-        private PaymentOptionRepositoryInterface $paymentOptionRepository
+        private PaymentOptionRepositoryInterface $paymentOptionRepository,
+        private UpdatePaymentOptionBalanceServiceInterface $updatePaymentOptionBalanceService
     ) {
     }
 
@@ -63,12 +65,12 @@ class TransferController extends Controller
         $destinationTransaction->paymentoption_id = $destinationPaymentOption->id;
 
         $this->transactionRepository->save($originTransaction);
-        $originPaymentOption->balance = $originPaymentOption->balance - $value;
-        $this->paymentOptionRepository->save($originPaymentOption);
+
+        $this->updatePaymentOptionBalanceService->execute($originPaymentOption, -$value);
 
         $this->transactionRepository->save($destinationTransaction);
-        $destinationPaymentOption->balance = $destinationPaymentOption->balance + $value;
-        $this->paymentOptionRepository->save($destinationPaymentOption);
+
+        $this->updatePaymentOptionBalanceService->execute($destinationPaymentOption, $value);
 
         return redirect()->route('transactions.index');
     }

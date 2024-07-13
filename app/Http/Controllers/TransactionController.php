@@ -8,12 +8,14 @@ use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\PaymentOptionRepositoryInterface;
+use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
 
 class TransactionController extends Controller
 {
     public function __construct(
         private TransactionRepositoryInterface $transactionRepository,
-        private PaymentOptionRepositoryInterface $paymentOptionRepository
+        private PaymentOptionRepositoryInterface $paymentOptionRepository,
+        private UpdatePaymentOptionBalanceServiceInterface $updatePaymentOptionBalanceService
     ) {
     }
 
@@ -48,9 +50,7 @@ class TransactionController extends Controller
         $this->transactionRepository->save($transaction);
 
         $paymentOption = $transaction->paymentOption;
-        $paymentOption->balance = $paymentOption->balance + $transaction->value;
-
-        $this->paymentOptionRepository->save($paymentOption);
+        $this->updatePaymentOptionBalanceService->execute($paymentOption, $transaction->value);
 
         return $this->index();
     }
