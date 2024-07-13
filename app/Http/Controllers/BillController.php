@@ -18,6 +18,14 @@ use App\Interfaces\PaymentOptionRepositoryInterface;
  */
 class BillController extends Controller
 {
+    /**
+     * Constructor
+     *
+     * @param \App\Interfaces\BillRepositoryInterface $billRepository
+     * @param \App\Interfaces\CreateBillTransactionServiceInterface $createBillTransactionService
+     * @param \App\Interfaces\UpdatePaymentOptionBalanceServiceInterface $updatePaymentOptionBalanceService
+     * @param \App\Interfaces\PaymentOptionRepositoryInterface $paymentOptionRepository
+     */
     public function __construct(
         private BillRepositoryInterface $billRepository,
         private CreateBillTransactionServiceInterface $createBillTransactionService,
@@ -25,8 +33,11 @@ class BillController extends Controller
         private PaymentOptionRepositoryInterface $paymentOptionRepository
     ) {
     }
+
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -38,6 +49,8 @@ class BillController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -48,6 +61,9 @@ class BillController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function store(Request $request)
     {
@@ -62,10 +78,13 @@ class BillController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(string $id)
     {
-        $bill = $this->billRepository->getById($id);
+        $bill = $this->billRepository->getById((int) $id);
         $paymentOptions = Auth::user()->paymentOptions;
 
         return view('bills.show', compact('bill', 'paymentOptions'));
@@ -73,6 +92,9 @@ class BillController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(string $id)
     {
@@ -81,10 +103,14 @@ class BillController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function update(Request $request, string $id)
     {
-        $bill = $this->billRepository->getById($id);
+        $bill = $this->billRepository->getById((int) $id);
         $bill->fill($request->all());
 
         $this->billRepository->save($bill);
@@ -94,10 +120,13 @@ class BillController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function destroy(string $id)
     {
-        $this->billRepository->deleteById($id);
+        $this->billRepository->deleteById((int) $id);
 
         return $this->index();
     }
