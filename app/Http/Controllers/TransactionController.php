@@ -37,8 +37,9 @@ class TransactionController extends Controller
     public function create()
     {
         $paymentOptions = Auth::user()->paymentOptions;
+        $categories = Auth::user()->categories;
 
-        return view('transactions.create', compact('paymentOptions'));
+        return view('transactions.create', compact('paymentOptions', 'categories'));
     }
 
     /**
@@ -49,10 +50,18 @@ class TransactionController extends Controller
         $transaction = new Transaction();
         $transaction->fill($request->all());
 
+        $categories = $request->categories;
+
+        $this->transactionRepository->save($transaction);
+
+        if ($categories) {
+            $transaction->categories()->sync(array_values($categories));
+        }
+
         $this->transactionRepository->save($transaction);
 
         $paymentOption = $transaction->paymentOption;
-        $this->updatePaymentOptionBalanceService->execute($paymentOption, $transaction->value);
+        $this->updatePaymentOptionBalanceService->execute($paymentOption, (float) $transaction->value);
 
         return $this->index();
     }
@@ -64,8 +73,15 @@ class TransactionController extends Controller
     {
         $transaction = $this->transactionRepository->getById((int) $id);
         $paymentOptions = Auth::user()->paymentOptions;
+        $transactionCategoriesIds = $transaction->categories->pluck('id')->toArray();
+        $categories = Auth::user()->categories;
 
-        return view('transactions.show', compact('transaction', 'paymentOptions'));
+        return view('transactions.show', compact(
+            'transaction',
+            'paymentOptions',
+            'categories',
+            'transactionCategoriesIds'
+        ));
     }
 
     /**
@@ -87,6 +103,13 @@ class TransactionController extends Controller
         $newValue = $request->value;
 
         $transaction->fill($request->all());
+
+        $categories = $request->categories;
+
+        if ($categories) {
+            $transaction->categories()->sync(array_values($categories));
+        }
+
 
         $this->transactionRepository->save($transaction);
 

@@ -67,6 +67,15 @@
                             <x-input-error :messages="$errors->get('paymentoption_id')" class="mt-2" />
                         </div>
 
+                        <div class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            @foreach ($categories as $category)
+                                <span class="m-1 flex" style="line-height: 2rem">
+                                    <span class="ml-4 mt-1"><input type="checkbox" name="categories[]" value="{{ $category->id }}" /></span>
+                                    <span class="ml-2 mt-1">{{ $category->name }}</span>
+                                </span>
+                            @endforeach
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ml-4">
                                 {{ __('Create') }}
