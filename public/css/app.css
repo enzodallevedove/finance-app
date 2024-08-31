@@ -195,3 +195,47 @@ footer div#copyright {
 }
 
 /* /Bills */
+
+/* Category */
+.categories-table {
+    width: 100%;
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+.categories-table thead tr th {
+    padding: 8px;
+    text-align: center;
+}
+
+.categories-table th,
+.categories-table td {
+    padding: 8px;
+}
+
+.categories-table .wider-column {
+    width: 85%;
+    /* Make the Name column wider */
+    text-align: center;
+}
+
+.categories-table .crud-icons {
+    width: 15%;
+    /* Keep the Actions column narrower */
+    text-align: center;
+}
+
+.categories-table .crud-icons button {
+    margin-right: 5px;
+}
+
+/* Optional: Style the buttons */
+.categories-table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* /Category */
