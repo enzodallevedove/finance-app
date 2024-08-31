@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('paymentoptions', PaymentOptionController::class);
     Route::resource('transactions', TransactionController::class);
     Route::resource('bills', BillController::class);
+    Route::resource('categories', CategoryController::class);
     Route::post('bills/markaspaid/{id}', [BillController::class, 'markAsPaid'])->name('bills.markaspaid');
     Route::get('transactions/transfer/create', [TransferController::class, 'create'])->name('transactions.transfer.create');
     Route::post('transactions/transfer/store', [TransferController::class, 'store'])->name('transactions.transfer.store');
