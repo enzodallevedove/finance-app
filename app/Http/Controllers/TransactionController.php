@@ -27,7 +27,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('created_at');
+        $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('date');
 
         return view('transactions', compact('transactions'));
     }
