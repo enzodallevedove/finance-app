@@ -171,7 +171,7 @@ class TransactionController extends Controller
         foreach ($categories as $category) {
             $result[] = [
                 'id' => $category->id,
-                'name' => str_repeat('--', $level) . ($level !== 0 ? ' ' : '') . $category->name
+                'name' => str_repeat('---', $level) . ($level !== 0 ? ' ' : '') . $category->name
             ];
 
             if ($category->children->isNotEmpty()) {
