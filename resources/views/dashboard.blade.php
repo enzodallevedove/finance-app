@@ -33,12 +33,12 @@
 					label: 'Current Assets',
 					data: [
 						@foreach ($paymentOptions as $paymentOption)
-							  '{{$paymentOption->balance}}',
+                            '{{$paymentOption->balance}}',
 						@endforeach
 					],
 					backgroundColor: [
 						@foreach ($paymentOptions as $paymentOption)
-							  '{{$paymentOption->color ?? "#FFFFFF" }}',
+                            '{{$paymentOption->color ?? "#FFFFFF" }}',
 						@endforeach
 
 					],
