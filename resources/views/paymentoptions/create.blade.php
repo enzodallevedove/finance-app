@@ -22,7 +22,7 @@
                             <x-input-label for="balance" :value="__('Balance')" />
 
                             <x-text-input id="balance" type="number" name="balance" step="0.01" required
-                                autocomplete="balance" class="block mt-1 w-full" />
+                                autocomplete="balance" class="block mt-1 w-full" value="0" />
 
                             <x-input-error :messages="$errors->get('balance')" class="mt-2" />
                         </div>
@@ -41,12 +41,12 @@
 
                             <x-input-error :messages="$errors->get('parent_id')" class="mt-2" />
                         </div>
-                        
+
                         <div class="flex items-center justify-end mt-4">
                             {{-- <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                                 {{ __('Already registered?') }}
                             </a> --}}
-                
+
                             <x-primary-button class="ml-4">
                                 {{ __('Create') }}
                             </x-primary-button>
