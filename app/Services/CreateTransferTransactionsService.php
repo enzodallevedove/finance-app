@@ -29,7 +29,7 @@ class CreateTransferTransactionsService implements CreateTransferTransactionsSer
         PaymentOption $origin,
         PaymentOption $destination,
         float $value,
-        string $description,
+        ?string $description,
         string $date
     ): void {
         $originTransaction = new Transaction();
