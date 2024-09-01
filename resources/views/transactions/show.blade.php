@@ -70,8 +70,8 @@
                         <div class="mt-4">
                             <x-input-label for="date" :value="__('Date')" />
 
-                            <x-text-input id="date" type="date" name="date" autocomplete="date"
-                                value="{{ $transaction->date }}" class="block mt-1 w-full" />
+                            <x-text-input id="date" type="datetime-local" name="date" autocomplete="date"
+                                :value="$transaction->date" class="block mt-1 w-full" />
 
                             <x-input-error :messages="$errors->get('date')" class="mt-2" />
                         </div>
