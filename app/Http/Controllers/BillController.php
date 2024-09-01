@@ -145,7 +145,7 @@ class BillController extends Controller
         $bill = $this->billRepository->getById((int) $id);
         $paymentOption = $this->paymentOptionRepository->getById($bill->paymentoption_id);
 
-        $value = $bill->value;
+        $value = -(abs($bill->value));
 
         $this->createBillTransactionService->execute($bill);
         $this->updatePaymentOptionBalanceService->execute($paymentOption, $value);
