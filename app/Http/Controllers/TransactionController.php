@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\PaymentOptionRepositoryInterface;
 use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class TransactionController extends Controller
 {
@@ -36,8 +37,21 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $paymentOptions = Auth::user()->paymentOptions;
-        $categories = Auth::user()->categories;
+        /**
+         * @var \App\Models\User $user
+         */
+        $user = Auth::user();
+
+        $paymentOptions = $user->paymentOptions;
+
+        $userCategories = $user
+            ->categories()
+            ->whereNull('parent_id')
+            ->with('children')
+            ->get();
+
+        $categories = $this->buildCategoriesArray($userCategories);
+
 
         return view('transactions.create', compact('paymentOptions', 'categories'));
     }
@@ -71,10 +85,22 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
+        /**
+         * @var \App\Models\User $user
+         */
+        $user = Auth::user();
+
         $transaction = $this->transactionRepository->getById((int) $id);
-        $paymentOptions = Auth::user()->paymentOptions;
+        $paymentOptions = $user->paymentOptions->sortBy('id');
         $transactionCategoriesIds = $transaction->categories->pluck('id')->toArray();
-        $categories = Auth::user()->categories;
+
+        $userCategories = $user
+            ->categories()
+            ->whereNull('parent_id')
+            ->with('children')
+            ->get();
+
+        $categories = $this->buildCategoriesArray($userCategories);
 
         return view('transactions.show', compact(
             'transaction',
@@ -136,5 +162,26 @@ class TransactionController extends Controller
         $this->updatePaymentOptionBalanceService->execute($paymentOption, $transactionValue);
 
         return $this->index();
+    }
+
+    private function buildCategoriesArray(Collection $categories, int $level = 0): array
+    {
+        $result = [];
+
+        foreach ($categories as $category) {
+            $result[] = [
+                'id' => $category->id,
+                'name' => str_repeat('--', $level) . ($level !== 0 ? ' ' : '') . $category->name
+            ];
+
+            if ($category->children->isNotEmpty()) {
+                $result = array_merge(
+                    $result,
+                    $this->buildCategoriesArray($category->children, $level + 1)
+                );
+            }
+        }
+
+        return $result;
     }
 }

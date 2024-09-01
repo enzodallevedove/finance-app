@@ -111,11 +111,11 @@
                                         <span class="ml-4 mt-1">
                                             <input type="checkbox"
                                                 name="categories[]"
-                                                value="{{ $category->id }}"
-                                                @checked(in_array($category->id, $transactionCategoriesIds))
+                                                value="{{ $category['id'] }}"
+                                                @checked(in_array($category['id'], $transactionCategoriesIds))
                                                 />
                                         </span>
-                                        <span class="ml-2 mt-1">{{ $category->name }}</span>
+                                        <span class="ml-2 mt-1">{{ $category['name'] }}</span>
                                     </span>
                                 @endforeach
                             </div>
