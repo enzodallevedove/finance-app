@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CategoryController extends Controller
 {
@@ -33,8 +34,18 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Auth::user()->categories;
-        $categories->sortByDesc('id');
+        /**
+         * @var \App\Models\User $user
+         */
+        $user = Auth::user();
+
+        $userCategories = $user
+            ->categories()
+            ->whereNull('parent_id')
+            ->with('children')
+            ->get();
+
+        $categories = $this->buildCategoriesArray($userCategories);
 
         return view('categories.create', compact('categories'));
     }
@@ -59,7 +70,18 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $categories = Auth::user()->categories;
+        /**
+         * @var \App\Models\User $user
+         */
+        $user = Auth::user();
+
+        $userCategories = $user
+            ->categories()
+            ->whereNull('parent_id')
+            ->with('children')
+            ->get();
+
+        $categories = $this->buildCategoriesArray($userCategories);
 
         return view('categories.show', compact('category', 'categories'));
     }
@@ -92,5 +114,26 @@ class CategoryController extends Controller
         $this->categoryRepository->deleteById((int) $category->id);
 
         return $this->index();
+    }
+
+    private function buildCategoriesArray(Collection $categories, int $level = 0): array
+    {
+        $result = [];
+
+        foreach ($categories as $category) {
+            $result[] = [
+                'id' => $category->id,
+                'name' => str_repeat('---', $level) . ($level !== 0 ? ' ' : '') . $category->name
+            ];
+
+            if ($category->children->isNotEmpty()) {
+                $result = array_merge(
+                    $result,
+                    $this->buildCategoriesArray($category->children, $level + 1)
+                );
+            }
+        }
+
+        return $result;
     }
 }
