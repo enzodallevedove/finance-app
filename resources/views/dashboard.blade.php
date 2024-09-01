@@ -37,9 +37,9 @@
 						@endforeach
 					],
 					backgroundColor: [
-						'rgb(255, 205, 86)',
-						'rgb(138, 5, 190)',
-						'rgb(255, 205, 86)',
+						@foreach ($paymentOptions as $paymentOption)
+							  '{{$paymentOption->color ?? "#FFFFFF" }}',
+						@endforeach
 
 					],
 					borderWidth: 1

@@ -18,11 +18,11 @@
                             <form method="post" action="{{ route('paymentoptions.destroy', ['paymentoption' => $paymentOption->id]) }}" class="p-6">
                                 @csrf
                                 @method('delete')
-                    
+
                                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                                     {{ __('Are you sure you want to delete your payment option?') }}
                                 </h2>
-                    
+
                                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                     {{ __('Once your payment option is deleted, all of its transactions and data will be permanently deleted.') }}
                                 </p>
@@ -31,7 +31,7 @@
                                     <x-secondary-button x-on:click="$dispatch('close')">
                                         {{ __('Cancel') }}
                                     </x-secondary-button>
-                    
+
                                     <x-danger-button class="ml-3">
                                         {{ __('Delete Payment Option') }}
                                     </x-danger-button>
@@ -47,6 +47,15 @@
                             <x-input-label for="name" :value="__('Name')" />
                             <x-text-input id="name" type="text" name="name" :value="$paymentOption->name" required autocomplete="name" class="block mt-1 w-full" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="color" :value="__('Color')" />
+
+                            <x-text-input id="color" type="color" name="color"
+                            autocomplete="color" class="block mt-1 w-full" :value="$paymentOption->color" />
+
+                            <x-input-error :messages="$errors->get('color')" class="mt-2" />
                         </div>
 
                         <div class="mt-4">

@@ -19,6 +19,14 @@
                         </div>
 
                         <div class="mt-4">
+                            <x-input-label for="color" :value="__('Color')" />
+
+                            <x-text-input id="color" type="color" name="color" autocomplete="color" class="block mt-1 w-full" value="#FFFFFF" />
+
+                            <x-input-error :messages="$errors->get('color')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
                             <x-input-label for="balance" :value="__('Balance')" />
 
                             <x-text-input id="balance" type="number" name="balance" step="0.01" required
