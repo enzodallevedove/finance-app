@@ -14,14 +14,18 @@
 				<div class="p-6 text-gray-900 dark:text-gray-100">
 					<canvas id="current-assets"></canvas>
 				</div>
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+					<canvas id="expenses-per-category"></canvas>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		const ctx = document.getElementById('current-assets');
+		const currentAssetsChart = document.getElementById('current-assets');
+        const expensesPerCategoryThisMonth = document.getElementById('expenses-per-category');
 
-		new Chart(ctx, {
+		new Chart(currentAssetsChart, {
 			type: 'bar',
 			data: {
 				labels: [
@@ -43,6 +47,39 @@
 					backgroundColor: [
 						@foreach ($paymentOptions as $paymentOption)
                             '{{$paymentOption->color ?? "#FFFFFF" }}',
+						@endforeach
+
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+
+        new Chart(expensesPerCategoryThisMonth, {
+			type: 'bar',
+			data: {
+				labels: [
+					@foreach ($expensesPerCategoryThisMonth as $expensePerCategory)
+						'{{$expensePerCategory->name}}',
+					@endforeach
+				],
+				datasets: [{
+					label: 'Current Assets',
+					data: [
+						@foreach ($expensesPerCategoryThisMonth as $expensePerCategory)
+                            '{{$expensePerCategory->total_value}}',
+						@endforeach
+					],
+					backgroundColor: [
+						@foreach ($expensesPerCategoryThisMonth as $expensePerCategory)
+                            '{{ "#FFFFFF" }}',
 						@endforeach
 
 					],
