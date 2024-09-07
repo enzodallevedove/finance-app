@@ -14,7 +14,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $paymentOptions = Auth::user()->paymentOptions;
+        $paymentOptions = Auth::user()->paymentOptions->where('balance', '!=', '0')->sortByDesc('balance');
 
         return view('dashboard', compact('paymentOptions'));
     }
