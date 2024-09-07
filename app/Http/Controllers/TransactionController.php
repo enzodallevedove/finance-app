@@ -28,8 +28,15 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('date');
+        $transactionsByDate = [];
 
-        return view('transactions', compact('transactions'));
+        foreach ($transactions as $transaction) {
+            $datetime = $transaction->date;
+            $date = substr($datetime, 0, 10);
+            $transactionsByDate[$date][] = $transaction;
+        }
+
+        return view('transactions', compact('transactionsByDate'));
     }
 
     /**
