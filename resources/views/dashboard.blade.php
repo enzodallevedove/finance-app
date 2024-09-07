@@ -26,7 +26,11 @@
 			data: {
 				labels: [
 					@foreach ($paymentOptions as $paymentOption)
-						'{{$paymentOption->name}}',
+						'{{
+                            strlen($paymentOption->name) > 22
+                            ? substr($paymentOption->name, 0, 22) . "..."
+                            : $paymentOption->name
+                        }}',
 					@endforeach
 				],
 				datasets: [{
