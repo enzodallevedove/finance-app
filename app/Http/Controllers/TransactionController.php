@@ -132,8 +132,20 @@ class TransactionController extends Controller
     {
         $transaction = $this->transactionRepository->getById((int) $id);
 
+        $doPaymentOptionChanged = (int)$transaction->paymentOption->id != (int)$request->paymentoption_id;
+
         $oldValue = $transaction->value;
-        $newValue = $request->value;
+
+        if ($doPaymentOptionChanged) {
+            $oldPaymentOption = $transaction->paymentOption;
+
+            $this->updatePaymentOptionBalanceService->execute(
+                $oldPaymentOption,
+                $oldValue
+            );
+        }
+
+        $newValue = (float)$request->value;
 
         $transaction->fill($request->all());
 
@@ -141,6 +153,8 @@ class TransactionController extends Controller
 
         if ($categories) {
             $transaction->categories()->sync(array_values($categories));
+        } else {
+            $transaction->categories()->sync([]);
         }
 
 
