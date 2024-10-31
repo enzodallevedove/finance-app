@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
     private function expensesPerCategoryThisMonth(): array
     {
-        $currentMonth = Carbon::now()->month;
+        $currentMonth = Carbon::now()->month-1;
         $currentYear = Carbon::now()->year;
 
         $filterByParentIdNull = true;
