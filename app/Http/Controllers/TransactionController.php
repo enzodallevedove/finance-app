@@ -36,7 +36,7 @@ class TransactionController extends Controller
             $transactionsByDate[$date][] = $transaction;
         }
 
-        return view('transactions', compact('transactionsByDate'));
+        return view('transactions.index', compact('transactionsByDate'));
     }
 
     /**

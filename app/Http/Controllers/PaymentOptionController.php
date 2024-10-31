@@ -24,7 +24,7 @@ class PaymentOptionController extends Controller
         $paymentOptions = Auth::user()->paymentOptions;
         $paymentOptions->sortByDesc('id');
 
-        return view('paymentoptions', compact('paymentOptions'));
+        return view('paymentoptions.index', compact('paymentOptions'));
     }
 
     /**

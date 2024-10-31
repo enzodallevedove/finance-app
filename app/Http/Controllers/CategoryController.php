@@ -26,7 +26,7 @@ class CategoryController extends Controller
         $categories = Auth::user()->categories;
         $categories->sortByDesc('id');
 
-        return view('categories', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
     /**

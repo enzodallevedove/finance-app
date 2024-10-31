@@ -44,7 +44,7 @@ class BillController extends Controller
         $bills = Auth::user()->bills;
         $bills->sortByDesc('id');
 
-        return view('bills', compact('bills'));
+        return view('bills.index', compact('bills'));
     }
 
     /**
