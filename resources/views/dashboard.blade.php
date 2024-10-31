@@ -12,9 +12,11 @@
 					{{ __("You're logged in!") }}
 				</div>
 				<div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h3>{{ __('Total balance by Payment Option') }}</h3>
 					<canvas id="current-assets"></canvas>
 				</div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h3>{{ __('Total expenses per Category in the current month') }}</h3>
 					<canvas id="expenses-per-category"></canvas>
 				</div>
 			</div>
