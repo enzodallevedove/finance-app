@@ -234,45 +234,40 @@ div.transactions .transaction .details {
 /* /Bills */
 
 /* Category */
-.categories-table {
-    width: 100%;
-    border-collapse: collapse;
-    max-width: 100%;
+
+.category-tree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 5rem;
 }
 
-.categories-table thead tr th {
-    padding: 8px;
-    text-align: center;
+.category-tree li {
+    margin: 0 0 2rem 0;
 }
 
-.categories-table th,
-.categories-table td {
-    padding: 8px;
+.category-tree li:last-child {
+    margin: 0;
 }
 
-.categories-table .wider-column {
-    width: 85%;
-    /* Make the Name column wider */
-    text-align: center;
+.category-tree li .category-name a {
+    text-decoration: none;
+    font-size: 1.2rem;
 }
 
-.categories-table .crud-icons {
-    width: 15%;
-    /* Keep the Actions column narrower */
-    text-align: center;
+.category-tree li .caret::after {
+    content: "\2198";
 }
 
-.categories-table .crud-icons button {
-    margin-right: 5px;
+.category-tree li a:hover {
+    text-decoration: underline;
 }
 
-/* Optional: Style the buttons */
-.categories-table button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
+.category-tree li ul {
+    margin: 0 0 0 2.5rem;
+}
+
+.category-tree li ul li {
+    margin-bottom: 10px;
 }
 
 /* /Category */
