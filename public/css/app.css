@@ -158,6 +158,7 @@ div.transactions .transaction .title {
 
 div.transactions .transaction .price {
     font-size: 1.5rem;
+    font-weight: bold;
 }
 
 div.transactions .transaction .price.positive {
