@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PaymentOption;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use App\Interfaces\PaymentOptionRepositoryInterface;
 
 class PaymentOptionController extends Controller
@@ -23,6 +24,7 @@ class PaymentOptionController extends Controller
     {
         $paymentOptions = Auth::user()->paymentOptions;
         $paymentOptions->sortByDesc('id');
+        $paymentOptions = $this->buildPaymentOptionTree($paymentOptions);
 
         return view('paymentoptions.index', compact('paymentOptions'));
     }
@@ -92,5 +94,35 @@ class PaymentOptionController extends Controller
         $this->paymentOptionRepository->deleteById((int) $id);
 
         return $this->index();
+    }
+
+    /**
+     * Get payment options in a tree structure
+     *
+     * @param Collection<PaymentOption> $paymentOptions
+     * @param int|null $parentId
+     * @return array<PaymentOption>
+     */
+    private function buildPaymentOptionTree(Collection $paymentOptions, ?int $parentId = null): array
+    {
+        $tree = [];
+
+        foreach ($paymentOptions as $option) {
+            if ($option->parent_id === $parentId) {
+                $children = $this->buildPaymentOptionTree($paymentOptions, $option->id);
+                if ($children) {
+                    $option->children = $children;
+                }
+                $tree[] = [
+                    'id' => $option->id,
+                    'name' => $option->name,
+                    'balance' => $option->balance,
+                    'color' => $option->color,
+                    'children' => $children
+                ];
+            }
+        }
+
+        return $tree;
     }
 }
