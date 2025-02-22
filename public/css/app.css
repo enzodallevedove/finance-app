@@ -63,45 +63,44 @@ footer div#copyright {
 /* /Footer */
 
 /* Payment Options */
-.payment-options-table {
-    width: 100%;
-    border-collapse: collapse;
-    max-width: 100%;
+
+.payment-options-tree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 5rem;
 }
 
-.payment-options-table thead tr th {
-    padding: 8px;
-    text-align: center;
+.payment-options-tree li {
+    margin: 0 0 2rem 0;
 }
 
-.payment-options-table th,
-.payment-options-table td {
-    padding: 8px;
+.payment-options-tree li:last-child {
+    margin: 0;
 }
 
-.payment-options-table .wider-column {
-    width: 85%;
-    /* Make the Name column wider */
-    text-align: center;
+.payment-options-tree li a {
+    text-decoration: none;
+    font-size: 1.2rem;
 }
 
-.payment-options-table .crud-icons {
-    width: 15%;
-    /* Keep the Actions column narrower */
-    text-align: center;
+.payment-options-tree li a:hover {
+    text-decoration: underline;
 }
 
-.payment-options-table .crud-icons button {
-    margin-right: 5px;
+.payment-options-tree li ul {
+    margin: 0 0 0 2.5rem;
 }
 
-/* Optional: Style the buttons */
-.payment-options-table button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
+.payment-options-tree li ul li {
+    margin-bottom: 10px;
+}
+
+.payment-options-tree li ul li a {
+    font-size: 1rem;
+}
+
+.payment-options-tree li .caret::after {
+    content: "\2198";
 }
 
 /* /Payment Options */
@@ -271,3 +270,15 @@ div.transactions .transaction .details {
 }
 
 /* /Category */
+
+.price-amount {
+    font-weight: bold;
+}
+
+.price-amount.positive {
+    color: #2ecc71; /* A nice green color */
+}
+
+.price-amount.negative {
+    color: #e74c3c; /* A nice red color */
+}
