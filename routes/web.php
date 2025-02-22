@@ -21,7 +21,9 @@ use App\Http\Controllers\PaymentOptionController;
 */
 
 Route::get('/', function () {
-    // return view('pages.list_pages');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
     return view('welcome');
 });
 
