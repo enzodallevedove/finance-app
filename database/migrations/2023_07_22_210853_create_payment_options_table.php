@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payment_options', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('balance')->default(0);
+            $table->decimal('balance', 10, 2)->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
