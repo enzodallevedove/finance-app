@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->float('value');
+            $table->decimal('value', 10, 2);
             $table->text('description')->nullable();
             $table->timestamp('date');
             $table->unsignedBigInteger('paymentoption_id');
