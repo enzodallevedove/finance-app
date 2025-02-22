@@ -143,56 +143,46 @@ div.transactions .transaction {
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, .1);
     border-radius: 5px;
-    margin: 1rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    width: 17rem;
+    align-items: center;
 }
 
-
-div.transactions .transaction .first-row {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    border-radius: 5px;
-    padding: 1rem 1rem 0rem 1rem;
-}
-
-div.transactions .transaction .first-row .title {
+div.transactions .transaction .title {
     font-size: 1.5rem;
     font-weight: bold;
 }
 
-div.transactions .transaction .second-row {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    border-radius: 5px;
-}
-
-div.transactions .transaction .second-row .price {
+div.transactions .transaction .price {
     font-size: 1.5rem;
 }
 
-
-div.transactions .transaction .second-row .price.positive {
+div.transactions .transaction .price.positive {
     color: green
 }
 
-div.transactions .transaction .second-row .price.negative {
-    color: darkred
+div.transactions .transaction .price.negative {
+    color: red
 }
 
-div.transactions .transaction .third-row {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    border-radius: 5px;
-    padding: 0rem 1rem 1rem 1rem;
+div.transactions .transaction .date {
+    font-size: 1rem;
+    margin: 0.2rem;
+    color: white;
 }
+
+div.transactions .transaction .payment-option {
+    font-size: 1rem;
+    margin: 0.2rem;
+    color: white;
+}
+
+div.transactions .transaction .details {
+    margin: 0.3rem 0rem 0.2rem 0rem;
+}
+
+
 /* /Transactions */
 
 /* Bills */
