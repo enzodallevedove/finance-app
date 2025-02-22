@@ -173,10 +173,11 @@ div.transactions .transaction .date {
 }
 
 div.transactions .transaction .payment-option {
-    font-size: 1.2rem;
+    font-size: 0.85rem;
     margin: 0.2rem;
     font-weight: bold;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
 }
 
 div.transactions .transaction .details {
