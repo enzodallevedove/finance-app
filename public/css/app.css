@@ -129,6 +129,7 @@ div.transactions .transaction-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 0 2rem 0 2rem;
 }
 
 div.transactions .date {
@@ -145,7 +146,7 @@ div.transactions .transaction {
     border-radius: 5px;
     margin: 0.5rem;
     padding: 0.5rem;
-    width: 17rem;
+    width: 250px;
     align-items: center;
     background-color:rgb(209, 213, 219, .1);
 }
@@ -168,7 +169,7 @@ div.transactions .transaction .price.negative {
 }
 
 div.transactions .transaction .date {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin: 0.2rem;
     color: white;
 }
