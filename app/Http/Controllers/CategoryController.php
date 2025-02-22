@@ -26,6 +26,8 @@ class CategoryController extends Controller
         $categories = Auth::user()->categories;
         $categories->sortByDesc('id');
 
+        $categories = $this->buildCategoriesTree($categories);
+
         return view('categories.index', compact('categories'));
     }
 
@@ -135,5 +137,23 @@ class CategoryController extends Controller
         }
 
         return $result;
+    }
+
+    private function buildCategoriesTree(Collection $categories, ?int $parentId = null): array
+    {
+        $tree = [];
+
+        foreach ($categories as $category) {
+            if ($category->parent_id === $parentId) {
+                $children = $this->buildCategoriesTree($categories, $category->id);
+                $tree[] = [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'children' => $children
+                ];
+            }
+        }
+
+        return $tree;
     }
 }
