@@ -14,70 +14,110 @@
                             {{ __('Transfer') }}
                         </a>
                     </div>
-                    <form method="POST" action="{{ route('transactions.store') }}">
+
+                    <form method="POST"
+                        action="{{ route('transactions.store') }}"
+                        class="transaction-create-form">
                         @csrf
 
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <x-text-input id="name" type="text" name="name" :value="old('name')" required autofocus
-                                autocomplete="name" class="block mt-1 w-full" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        </div>
+                        <div class="fieldsets">
+                            <fieldset class="transaction-details">
+                                <legend class="text-lg font-bold">{{ __('Transaction Details') }}</legend>
 
-                        <div class="mt-4">
-                            <x-input-label for="value" :value="__('Value')" />
+                                <div class="transaction-details-name">
+                                    <div>
+                                        <x-input-label for="name" :value="__('Name')" />
 
-                            <x-text-input id="value" type="text" name="value" required
-                                autocomplete="value" class="block mt-1 w-full" />
+                                        <x-text-input id="name"
+                                            type="text"
+                                            name="name"
+                                            :value="old('name')"
+                                            required
+                                            autofocus
+                                            autocomplete="name"
+                                            class="block mt-1 w-full"
+                                        />
 
-                            <x-input-error :messages="$errors->get('value')" class="mt-2" />
-                        </div>
+                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                    </div>
+                                </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="description" :value="__('Description')" />
+                                <div class="transaction-details-value-and-date">
+                                    <div>
+                                        <x-input-label for="value" :value="__('Value')" />
 
-                            <textarea id="description" name="description" autocomplete="description" rows="4"
-                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                                        <x-text-input id="value"
+                                            type="text"
+                                            name="value"
+                                            required
+                                            autocomplete="value"
+                                            class="block mt-1 w-full"
+                                        />
 
-                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div>
+                                        <x-input-error :messages="$errors->get('value')" class="mt-2" />
+                                    </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="date" :value="__('Date')" />
+                                    <div>
+                                        <x-input-label for="date" :value="__('Date')" />
 
-                            <x-text-input id="date"
-                                type="datetime-local"
-                                name="date"
-                                autocomplete="date"
-                                class="block mt-1 w-full"
-                                required />
+                                        <x-text-input id="date"
+                                            type="datetime-local"
+                                            name="date"
+                                            autocomplete="date"
+                                            class="block mt-1 w-full"
+                                            required />
 
-                            <x-input-error :messages="$errors->get('date')" class="mt-2" />
-                        </div>
+                                        <x-input-error :messages="$errors->get('date')" class="mt-2" />
+                                    </div>
+                                </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="paymentoption_id" :value="__('Payment Option')" />
+                                <div class="transaction-details-description">
+                                    <x-input-label for="description" :value="__('Description')" />
 
-                            <select name="paymentoption_id" required
-                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                                @foreach ($paymentOptions as $paymentOption)
-                                <option value="{{ $paymentOption->id }}"
-                                    @selected(old('paymentOption')==$paymentOption)>
-                                    {{ $paymentOption->name }} | {{'R$ ' . number_format($paymentOption->balance, 2, ',', '.')}}
-                                </option>
-                                @endforeach
-                            </select>
+                                    <textarea id="description"
+                                        name="description"
+                                        autocomplete="description"
+                                        rows="4"></textarea>
 
-                            <x-input-error :messages="$errors->get('paymentoption_id')" class="mt-2" />
-                        </div>
+                                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                                </div>
 
-                        <div class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            @foreach ($categories as $category)
-                                <span class="m-1 flex" style="line-height: 2rem">
-                                    <span class="ml-4 mt-1"><input type="checkbox" name="categories[]" value="{{ $category['id'] }}" /></span>
-                                    <span class="ml-2 mt-1">{{ $category['name'] }}</span>
-                                </span>
-                            @endforeach
+                                <div class="transaction-details-payment-option">
+                                    <x-input-label for="paymentoption_id" :value="__('Payment Option')" />
+
+                                    <select name="paymentoption_id" required>
+                                        @foreach ($paymentOptions as $paymentOption)
+                                        <option value="{{ $paymentOption->id }}"
+                                            @selected(old('paymentOption')==$paymentOption)>
+                                            {{ $paymentOption->name }} | {{'R$ ' . number_format($paymentOption->balance, 2, ',', '.')}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+
+                                    <x-input-error :messages="$errors->get('paymentoption_id')" class="mt-2" />
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="categories">
+                                <legend class="text-lg font-bold">{{ __('Categories') }}</legend>
+
+                                <ul class="categories-list">
+                                    @foreach ($categories as $category)
+                                        <li>
+                                            <span class="checkbox-container">
+                                                <input type="checkbox"
+                                                    name="categories[]"
+                                                    value="{{ $category['id'] }}" />
+                                            </span>
+
+                                            <span class="category-name">
+                                                {{ $category['name'] }}
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </fieldset>
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
