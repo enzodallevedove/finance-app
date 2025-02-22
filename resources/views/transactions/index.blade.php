@@ -23,22 +23,22 @@
                                     @foreach ($transactions as $transaction)
                                         <div class="transaction">
                                             <span class="title">
-                                                <h3>{{ $transaction->name }}</h3>
+                                                <span>{{ $transaction->name }}</span>
                                             </span>
 
                                             <span class="price @if ($transaction->value > 0) positive @else negative @endif">
-                                                <h4>{{ 'R$ ' . number_format($transaction->value, 2, ',', '.') }}</h4>
+                                                <span>{{ 'R$ ' . number_format($transaction->value, 2, ',', '.') }}</span>
                                             </span>
 
                                             <span class="date">
-                                                <p>{{
+                                                <span>{{
                                                     \Carbon\Carbon::parse($transaction->date)
                                                         ->translatedFormat('j \\of F \\of Y \\ \\a\\t H:i')
-                                                }}</p>
+                                                }}</span>
                                             </span>
 
                                             <span class="payment-option">
-                                                <h4>{{ $transaction->paymentOption->name }}</h4>
+                                                <span>{{ $transaction->paymentOption->name }}</span>
                                             </span>
 
                                             <span class="details">
