@@ -38,7 +38,7 @@
                                             </span>
 
                                             <span class="payment-option">
-                                                <span>{{ $transaction->paymentOption->name }}</span>
+                                                <span style="color: {{ $transaction->paymentOption->color }}">{{ $transaction->paymentOption->name }}</span>
                                             </span>
 
                                             <span class="details">
