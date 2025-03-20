@@ -89,7 +89,7 @@
                     <div class="transactions">
                         @foreach ($transactionsByDate as $date => $transactions)
                             <div class="block">
-                                <span class="date">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y') }}</span>
+                                <span class="block-date font-semibold text-gray-800 dark:text-gray-200 leading-tight">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y') }}</span>
                                 <div class="transaction-list">
                                     @foreach ($transactions as $transaction)
                                         <div class="transaction">
