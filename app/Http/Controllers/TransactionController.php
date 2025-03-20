@@ -25,10 +25,22 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        /**
+         * @var Collection $transactions
+         */
         $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('date');
         $transactionsByDate = [];
+
+        if ($request->has('payment_options')) {
+            $paymentOptionIds = array_values($request->payment_options);
+            $transactions = $transactions->whereIn('paymentoption_id', $paymentOptionIds);
+        }
+
+        if ($request->has('date')) {
+            $transactions = $transactions->where('date', $request->date);
+        }
 
         foreach ($transactions as $transaction) {
             $datetime = $transaction->date;
@@ -36,7 +48,15 @@ class TransactionController extends Controller
             $transactionsByDate[$date][] = $transaction;
         }
 
-        return view('transactions.index', compact('transactionsByDate'));
+        $paymentOptions = PaymentOption::all();
+
+        return view(
+            'transactions.index',
+            compact(
+                'transactionsByDate' ,
+                'paymentOptions'
+            )
+        );
     }
 
     /**
