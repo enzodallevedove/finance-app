@@ -38,8 +38,23 @@ class TransactionController extends Controller
             $transactions = $transactions->whereIn('paymentoption_id', $paymentOptionIds);
         }
 
-        if ($request->has('date')) {
-            $transactions = $transactions->where('date', $request->date);
+        if ($request->has('date_from') || $request->has('date_to')) {
+            $dateFrom = $request->date_from;
+            $dateTo = $request->date_to;
+
+            $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
+                $date = $transaction->date;
+
+                if(!$dateFrom) {
+                    $dateFrom = '0000-00-00';
+                }
+
+                if(!$dateTo) {
+                    $dateTo = '9999-99-99';
+                }
+
+                return $date >= $dateFrom && $date <= $dateTo;
+            });
         }
 
         foreach ($transactions as $transaction) {
