@@ -227,6 +227,10 @@ class TransactionController extends Controller
         }
 
         if ($request->has('date_from') || $request->has('date_to')) {
+            if ($request->date_from === null && $request->date_to === null) {
+                return $transactions;
+            }
+
             $dateFrom = $request->date_from;
             $dateTo = $request->date_to;
 
