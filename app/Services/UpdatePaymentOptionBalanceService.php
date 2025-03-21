@@ -26,7 +26,7 @@ class UpdatePaymentOptionBalanceService implements UpdatePaymentOptionBalanceSer
      */
     public function execute(PaymentOption $paymentOption, float $value): void
     {
-        if ($value === 0) {
+        if ($value === 0.0) {
             return;
         }
 
