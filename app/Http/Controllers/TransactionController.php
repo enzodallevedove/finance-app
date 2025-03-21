@@ -42,19 +42,30 @@ class TransactionController extends Controller
             $dateFrom = $request->date_from;
             $dateTo = $request->date_to;
 
-            $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
-                $date = $transaction->date;
+            if ($dateFrom !== $dateTo) {
+                $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
+                    $date = $transaction->date;
 
-                if(!$dateFrom) {
-                    $dateFrom = '0000-00-00';
-                }
+                    if (!$dateFrom) {
+                        $dateFrom = '0000-00-00';
+                    }
 
-                if(!$dateTo) {
-                    $dateTo = '9999-99-99';
-                }
+                    if (!$dateTo) {
+                        $dateTo = '9999-99-99';
+                    }
 
-                return $date >= $dateFrom && $date <= $dateTo;
-            });
+                    return $date >= $dateFrom && $date <= $dateTo;
+                });
+            } else {
+                $transactions = $transactions->filter(function ($transaction) use ($dateFrom) {
+                    $date = $transaction->date;
+
+                    $dateFrom = $dateFrom . ' 00:00:00';
+                    $dateTo = $dateFrom . ' 23:59:59';
+
+                    return $date >= $dateFrom && $date <= $dateTo;
+                });
+            }
         }
 
         foreach ($transactions as $transaction) {
@@ -68,7 +79,7 @@ class TransactionController extends Controller
         return view(
             'transactions.index',
             compact(
-                'transactionsByDate' ,
+                'transactionsByDate',
                 'paymentOptions'
             )
         );
