@@ -98,7 +98,7 @@ class TransactionController extends Controller
         $paymentOption = $transaction->paymentOption;
         $this->updatePaymentOptionBalanceService->execute($paymentOption, (float) $transaction->value);
 
-        return $this->index();
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -179,7 +179,7 @@ class TransactionController extends Controller
             $oldValue - $newValue
         );
 
-        return $this->index();
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -196,7 +196,7 @@ class TransactionController extends Controller
 
         $this->updatePaymentOptionBalanceService->execute($paymentOption, $transactionValue);
 
-        return $this->index();
+        return redirect()->route('transactions.index');
     }
 
     private function buildCategoriesArray(Collection $categories, int $level = 0): array
