@@ -250,11 +250,11 @@ class TransactionController extends Controller
                     return $date >= $dateFrom && $date <= $dateTo;
                 });
             } else {
-                $transactions = $transactions->filter(function ($transaction) use ($dateFrom) {
+                $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
                     $date = $transaction->date;
 
                     $dateFrom = $dateFrom . ' 00:00:00';
-                    $dateTo = $dateFrom . ' 23:59:59';
+                    $dateTo = $dateTo . ' 23:59:59';
 
                     return $date >= $dateFrom && $date <= $dateTo;
                 });
