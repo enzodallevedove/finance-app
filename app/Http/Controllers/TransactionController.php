@@ -33,40 +33,7 @@ class TransactionController extends Controller
         $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('date');
         $transactionsByDate = [];
 
-        if ($request->has('payment_options')) {
-            $paymentOptionIds = array_values($request->payment_options);
-            $transactions = $transactions->whereIn('paymentoption_id', $paymentOptionIds);
-        }
-
-        if ($request->has('date_from') || $request->has('date_to')) {
-            $dateFrom = $request->date_from;
-            $dateTo = $request->date_to;
-
-            if ($dateFrom !== $dateTo) {
-                $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
-                    $date = $transaction->date;
-
-                    if (!$dateFrom) {
-                        $dateFrom = '0000-00-00';
-                    }
-
-                    if (!$dateTo) {
-                        $dateTo = '9999-99-99';
-                    }
-
-                    return $date >= $dateFrom && $date <= $dateTo;
-                });
-            } else {
-                $transactions = $transactions->filter(function ($transaction) use ($dateFrom) {
-                    $date = $transaction->date;
-
-                    $dateFrom = $dateFrom . ' 00:00:00';
-                    $dateTo = $dateFrom . ' 23:59:59';
-
-                    return $date >= $dateFrom && $date <= $dateTo;
-                });
-            }
-        }
+        $transactions = $this->applyFilters($transactions, $request);
 
         foreach ($transactions as $transaction) {
             $datetime = $transaction->date;
@@ -250,5 +217,45 @@ class TransactionController extends Controller
         }
 
         return $result;
+    }
+
+    public function applyFilters(Collection $transactions, Request $request): Collection
+    {
+        if ($request->has('payment_options')) {
+            $paymentOptionIds = array_values($request->payment_options);
+            $transactions = $transactions->whereIn('paymentoption_id', $paymentOptionIds);
+        }
+
+        if ($request->has('date_from') || $request->has('date_to')) {
+            $dateFrom = $request->date_from;
+            $dateTo = $request->date_to;
+
+            if ($dateFrom !== $dateTo) {
+                $transactions = $transactions->filter(function ($transaction) use ($dateFrom, $dateTo) {
+                    $date = $transaction->date;
+
+                    if (!$dateFrom) {
+                        $dateFrom = '0000-00-00';
+                    }
+
+                    if (!$dateTo) {
+                        $dateTo = '9999-99-99';
+                    }
+
+                    return $date >= $dateFrom && $date <= $dateTo;
+                });
+            } else {
+                $transactions = $transactions->filter(function ($transaction) use ($dateFrom) {
+                    $date = $transaction->date;
+
+                    $dateFrom = $dateFrom . ' 00:00:00';
+                    $dateTo = $dateFrom . ' 23:59:59';
+
+                    return $date >= $dateFrom && $date <= $dateTo;
+                });
+            }
+        }
+
+        return $transactions;
     }
 }
