@@ -12,6 +12,7 @@ use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\PaymentOptionRepositoryInterface;
 use App\Interfaces\UpdatePaymentOptionBalanceServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class TransactionController extends Controller
 {
@@ -28,7 +29,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         /**
-         * @var Collection $transactions
+         * @var SupportCollection $transactions
          */
         $transactions = Auth::user()->paymentOptions->flatMap->transactions->sortByDesc('date');
         $transactionsByDate = [];
@@ -219,7 +220,7 @@ class TransactionController extends Controller
         return $result;
     }
 
-    public function applyFilters(Collection $transactions, Request $request): Collection
+    public function applyFilters(SupportCollection $transactions, Request $request): SupportCollection
     {
         if ($request->has('payment_options')) {
             $paymentOptionIds = array_values($request->payment_options);
