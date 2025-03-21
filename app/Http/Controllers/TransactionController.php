@@ -146,16 +146,16 @@ class TransactionController extends Controller
     {
         $transaction = $this->transactionRepository->getById((int) $id);
 
-        $doPaymentOptionChanged = (int)$transaction->paymentOption->id != (int)$request->paymentoption_id;
+        $oldValue = (float) $transaction->value;
 
-        $oldValue = $transaction->value;
+        $doPaymentOptionChanged = (int)$transaction->paymentOption->id != (int)$request->paymentoption_id;
 
         if ($doPaymentOptionChanged) {
             $oldPaymentOption = $transaction->paymentOption;
 
             $this->updatePaymentOptionBalanceService->execute(
                 $oldPaymentOption,
-                $oldValue
+                -$oldValue
             );
         }
 
@@ -171,13 +171,20 @@ class TransactionController extends Controller
             $transaction->categories()->sync([]);
         }
 
-
         $this->transactionRepository->save($transaction);
 
-        $this->updatePaymentOptionBalanceService->execute(
-            $transaction->paymentOption,
-            $oldValue - $newValue
-        );
+        if (!$doPaymentOptionChanged) {
+            $this->updatePaymentOptionBalanceService->execute(
+                $transaction->paymentOption,
+                $newValue - $oldValue
+            );
+        } else {
+            $newPaymentOption = $this->paymentOptionRepository->getById((int)$request->paymentoption_id);
+            $this->updatePaymentOptionBalanceService->execute(
+                $newPaymentOption,
+                $newValue
+            );
+        }
 
         return redirect()->route('transactions.index');
     }
