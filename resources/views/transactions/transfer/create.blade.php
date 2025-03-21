@@ -20,8 +20,13 @@
                         <div class="mt-4">
                             <x-input-label for="value" :value="__('Value')" />
 
-                            <x-text-input id="value" type="number" name="value" step="0.01" required
-                                autocomplete="value" class="block mt-1 w-full" />
+                            <x-text-input id="value"
+                                type="text"
+                                name="value"
+                                required
+                                autocomplete="value"
+                                class="block mt-1 w-full"
+                            />
 
                             <x-input-error :messages="$errors->get('value')" class="mt-2" />
                         </div>
@@ -89,4 +94,67 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#value').on('input', function(e) {
+                let value = $(this).val();
+                let isNegative = value.startsWith('-');
+                // Remove all non-digits (but keep minus sign if present)
+                value = value.replace(/[^\d-]/g, '');
+
+                if (!value || value === '-') {
+                    $(this).val('0,00');
+                    return;
+                }
+
+                // Remove any extra minus signs and ensure it's only at the start
+                value = value.replace(/-/g, '');
+                value = (parseInt(value) / 100).toFixed(2);
+
+                // Format with thousand separators and comma decimal
+                value = value.replace('.', ',');
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                // Add negative sign if needed
+                if (isNegative) {
+                    value = '-' + value;
+                }
+
+                $(this).val(value);
+            });
+
+            $('#value').on('keydown', function(e) {
+                if (e.key === '-' || e.key === '+') {
+                    e.preventDefault();
+                    let currentValue = $(this).val();
+                    if (currentValue.startsWith('-')) {
+                        $(this).val(currentValue.substring(1));
+                    } else {
+                        $(this).val('-' + currentValue);
+                    }
+                }
+            });
+
+            $('form').on('submit', function(e) {
+                let input = $('#value');
+                let value = input.val();
+
+                // Remove thousand separators and convert comma to dot
+                value = value.replace(/\./g, '').replace(',', '.');
+                // Create a hidden input with the formatted value
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: input.attr('name'),
+                    value: value
+                }).appendTo($(this));
+
+                // Clear the original input so it doesn't send the formatted version
+                input.removeAttr('name');
+            });
+
+            // Initialize with empty or existing value
+            $('#value').trigger('input');
+        });
+    </script>
 </x-app-layout>
