@@ -14,7 +14,15 @@ div.batch-container table th,td {
 }
 
 div.batch-container table input,select {
-    color: black;
     max-width: 100%;
     width: 100%;
+}
+
+.batch-form select {
+    width: 100%;
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: white;
 }

@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class=" batch-container text-white">
-                        <form action="{{ route('transactions.batch.store') }}" method="POST">
+                        <form class="batch-form" action="{{ route('transactions.batch.store') }}" method="POST">
                             @csrf
 
                             <table class="table table-dark table-bordered">
@@ -28,14 +28,27 @@
                                     @for ($i = 0; $i < 3; $i++)
                                         <tr>
                                             <td>
-                                                <input name="transactions[{{ $i }}][name]" class="form-control" />
+                                                <x-text-input
+                                                    name="transactions[{{ $i }}][name]"
+                                                    required
+                                                    class="block mt-1 w-full"
+                                                />
                                             </td>
                                             <td>
-                                                <input name="transactions[{{ $i }}][value]" class="form-control" />
+                                                <x-text-input
+                                                    name="transactions[{{ $i }}][value]"
+                                                    required
+                                                    class="block mt-1 w-full"
+                                                />
                                             </td>
                                             <td>
-                                                <input type="datetime-local" name="transactions[{{ $i }}][date]"
-                                                    class="form-control" />
+                                                <x-text-input id="date"
+                                                    type="datetime-local"
+                                                    name="transactions[{{ $i }}][date]"
+                                                    autocomplete="date"
+                                                    class="block mt-1 w-full"
+                                                    required
+                                                />
                                             </td>
                                             <td>
                                                 <select name="transactions[{{ $i }}][category_id]" class="form-control">
@@ -84,25 +97,45 @@
             const row = document.createElement('tr');
 
             row.innerHTML = `
-                                <td><input name="transactions[${rowCount}][name]" class="form-control" /></td>
-                                <td><input name="transactions[${rowCount}][value]" class="form-control" /></td>
-                                <td><input type="datetime-local" name="transactions[${rowCount}][date]" class="form-control" /></td>
-                                <td>
-                                    <select name="transactions[${rowCount}][category_id]" class="form-control">
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="transactions[${rowCount}][payment_option_id]" class="form-control">
-                                        @foreach ($paymentOptions as $option)
-                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">🗑</button></td>
-                            `;
+                <td>
+                    <x-text-input
+                        name="transactions[${rowCount}][name]"
+                        required
+                        class="block mt-1 w-full"
+                    />
+                </td>
+                <td>
+                    <x-text-input
+                        name="transactions[${rowCount}][value]"
+                        required
+                        class="block mt-1 w-full"
+                    />
+                </td>
+                <td>
+                    <x-text-input id="date"
+                        type="datetime-local"
+                        name="transactions[${rowCount}][date]"
+                        autocomplete="date"
+                        class="block mt-1 w-full"
+                        required
+                    />
+                </td>
+                <td>
+                    <select name="transactions[${rowCount}][category_id]" class="form-control">
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <select name="transactions[${rowCount}][payment_option_id]" class="form-control">
+                        @foreach ($paymentOptions as $option)
+                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">🗑</button></td>
+            `;
             tbody.appendChild(row);
             rowCount++;
         }
