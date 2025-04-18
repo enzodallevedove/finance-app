@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Transaction\TransferController;
 use App\Http\Controllers\PaymentOptionController;
+use App\Http\Controllers\Transaction\BatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::post('bills/markaspaid/{id}', [BillController::class, 'markAsPaid'])->name('bills.markaspaid');
     Route::get('transactions/transfer/create', [TransferController::class, 'create'])->name('transactions.transfer.create');
     Route::post('transactions/transfer/store', [TransferController::class, 'store'])->name('transactions.transfer.store');
+    Route::get('transactions/batch/create', [BatchController::class, 'create'])->name('transactions.batch.create');
+    Route::post('transactions/batch/store', [BatchController::class, 'store'])->name('transactions.batch.store');
 });
 
 require __DIR__.'/auth.php';

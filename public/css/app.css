@@ -398,3 +398,24 @@ div.transactions .transaction .details {
 .price-amount.negative {
     color: #e74c3c; /* A nice red color */
 }
+
+div.batch-container {
+    width: 100%; /* or any fixed width */
+    overflow-x: hidden; /* optional, if you're sure no overflow should happen */
+}
+
+div.batch-container table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+div.batch-container table th,td {
+    width: 100%;
+    table-layout: fixed;
+}
+
+div.batch-container table input,select {
+    color: black;
+    max-width: 100%;
+    width: 100%;
+}
