@@ -179,7 +179,9 @@
             $('form').on('submit', function (e) {
                 let inputs = $('.transaction-value');
 
-                inputs.forEach(input => {
+                $.each(inputs,function(){
+                    let input = $(this);
+                    // Get the value from the input
                     let value = input.val();
 
                     // Remove thousand separators and convert comma to dot
