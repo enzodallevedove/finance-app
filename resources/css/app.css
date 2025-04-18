@@ -1,3 +1,7 @@
+/* Page-specific styles */
+@import './pages/transactions/batch.css';
+@import './pages/category.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

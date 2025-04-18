@@ -1,0 +1,38 @@
+.payment-options-tree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 5rem;
+}
+
+.payment-options-tree li {
+    margin: 0 0 2rem 0;
+}
+
+.payment-options-tree li:last-child {
+    margin: 0;
+}
+
+.payment-options-tree li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.payment-options-tree li a:hover {
+    text-decoration: underline;
+}
+
+.payment-options-tree li ul {
+    margin: 0 0 0 2.5rem;
+}
+
+.payment-options-tree li ul li {
+    margin-bottom: 10px;
+}
+
+.payment-options-tree li ul li a {
+    font-size: 1rem;
+}
+
+.payment-options-tree li .caret::after {
+    content: "\2198";
+}

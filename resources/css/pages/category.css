@@ -1,0 +1,34 @@
+.category-tree {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 5rem;
+}
+
+.category-tree li {
+    margin: 0 0 2rem 0;
+}
+
+.category-tree li:last-child {
+    margin: 0;
+}
+
+.category-tree li .category-name a {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.category-tree li .caret::after {
+    content: "\2198";
+}
+
+.category-tree li a:hover {
+    text-decoration: underline;
+}
+
+.category-tree li ul {
+    margin: 0 0 0 2.5rem;
+}
+
+.category-tree li ul li {
+    margin-bottom: 10px;
+}

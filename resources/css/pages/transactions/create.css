@@ -1,0 +1,81 @@
+.transaction-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.transaction-create-form .fieldsets {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.transaction-create-form .fieldsets legend {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 0 1.5rem 0;
+}
+
+.transaction-create-form .fieldsets .transaction-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 60%;
+}
+
+.transaction-create-form .fieldsets .categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 40%;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-value-and-date {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-value-and-date div {
+    width: 50%;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-description {
+    width: 100%;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-description textarea {
+    width: 100%;
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: white;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-payment-option {
+    width: 100%;
+}
+
+.transaction-create-form .fieldsets .transaction-details .transaction-details-payment-option select {
+    width: 100%;
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: white;
+}
+
+.transaction-create-form .fieldsets .categories .categories-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-create-form .fieldsets .categories .categories-list li {
+    display: flex;
+    flex-direction: row;
+}
+
+.transaction-create-form .fieldsets .categories .categories-list li .checkbox-container {
+    margin-right: 0.5rem;
+}
