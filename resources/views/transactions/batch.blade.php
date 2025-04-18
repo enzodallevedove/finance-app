@@ -28,27 +28,17 @@
                                     @for ($i = 0; $i < 3; $i++)
                                         <tr>
                                             <td>
-                                                <x-text-input
-                                                    name="transactions[{{ $i }}][name]"
-                                                    required
-                                                    class="block mt-1 w-full"
-                                                />
+                                                <x-text-input name="transactions[{{ $i }}][name]" required
+                                                    class="block mt-1 w-full" />
                                             </td>
                                             <td>
-                                                <x-text-input
-                                                    name="transactions[{{ $i }}][value]"
-                                                    required
-                                                    class="block mt-1 w-full"
-                                                />
+                                                <x-text-input name="transactions[{{ $i }}][value]" required
+                                                    class="block mt-1 w-full transaction-value" />
                                             </td>
                                             <td>
-                                                <x-text-input id="date"
-                                                    type="datetime-local"
-                                                    name="transactions[{{ $i }}][date]"
-                                                    autocomplete="date"
-                                                    class="block mt-1 w-full"
-                                                    required
-                                                />
+                                                <x-text-input id="date" type="datetime-local"
+                                                    name="transactions[{{ $i }}][date]" autocomplete="date"
+                                                    class="block mt-1 w-full" required />
                                             </td>
                                             <td>
                                                 <select name="transactions[{{ $i }}][category_id]" class="form-control">
@@ -108,7 +98,7 @@
                     <x-text-input
                         name="transactions[${rowCount}][value]"
                         required
-                        class="block mt-1 w-full"
+                        class="block mt-1 w-full transaction-value"
                     />
                 </td>
                 <td>
@@ -143,5 +133,71 @@
         function removeRow(button) {
             button.closest('tr').remove();
         }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.transaction-value').on('input', function (e) {
+                let value = $(this).val();
+                let isNegative = value.startsWith('-');
+                // Remove all non-digits (but keep minus sign if present)
+                value = value.replace(/[^\d-]/g, '');
+
+                if (!value || value === '-') {
+                    $(this).val('0,00');
+                    return;
+                }
+
+                // Remove any extra minus signs and ensure it's only at the start
+                value = value.replace(/-/g, '');
+                value = (parseInt(value) / 100).toFixed(2);
+
+                // Format with thousand separators and comma decimal
+                value = value.replace('.', ',');
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                // Add negative sign if needed
+                if (isNegative) {
+                    value = '-' + value;
+                }
+
+                $(this).val(value);
+            });
+
+            $('.transaction-value').on('keydown', function (e) {
+                if (e.key === '-' || e.key === '+') {
+                    e.preventDefault();
+                    let currentValue = $(this).val();
+                    if (currentValue.startsWith('-')) {
+                        $(this).val(currentValue.substring(1));
+                    } else {
+                        $(this).val('-' + currentValue);
+                    }
+                }
+            });
+
+            $('form').on('submit', function (e) {
+                let inputs = $('.transaction-value');
+
+                inputs.forEach(input => {
+                    let value = input.val();
+
+                    // Remove thousand separators and convert comma to dot
+                    value = value.replace(/\./g, '').replace(',', '.');
+                    // Create a hidden input with the formatted value
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: input.attr('name'),
+                        value: value
+                    }).appendTo($(this));
+
+                    // Clear the original input so it doesn't send the formatted version
+                    input.removeAttr('name');
+                });
+            });
+
+            // Initialize with empty or existing value
+            $('.transaction-value').trigger('input');
+        });
     </script>
 </x-app-layout>
