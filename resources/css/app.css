@@ -1,6 +1,11 @@
 /* Page-specific styles */
 @import './pages/transactions/batch.css';
 @import './pages/category.css';
+@import './pages/transactions.css';
+@import './pages/payment-options.css';
+@import './pages/dashboard.css';
+@import './pages/bills.css';
+@import './pages/transactions/create.css';
 
 @tailwind base;
 @tailwind components;
