@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CategoryRepositoryInterface;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Models\Transaction;
+use App\Models\Category;
 
 class DashboardController extends Controller
 {
@@ -20,37 +18,37 @@ class DashboardController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $paymentOptions = Auth::user()->paymentOptions->where('balance', '!=', '0')->sortByDesc('balance');
-        $expensesPerCategoryThisMonth = $this->expensesPerCategoryThisMonth();
+        $today = now();
+        $startOfMonth = $today->copy()->startOfMonth();
+        $totalSpentThisMonth = Transaction::whereBetween('date', [$startOfMonth, $today])->sum('value');
+        $dailyAverage = round($totalSpentThisMonth / $today->day, 2);
 
-        return view('dashboard', compact(
-            'paymentOptions',
-            'expensesPerCategoryThisMonth'
-        ));
-    }
+        $categorySums = Category::with([
+            'transactions' => function ($query) use ($startOfMonth, $today) {
+                $query->whereBetween('date', [$startOfMonth, $today]);
+            }
+        ])->get()->mapWithKeys(function ($category) {
+            return [$category->name => $category->transactions->sum('value')];
+        })->sortDesc();
 
-    private function expensesPerCategoryThisMonth(): array
-    {
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
+        $topCategoryName = $categorySums->keys()->first();
+        $topCategoryTotal = $categorySums->values()->first();
 
-        $filterByParentIdNull = true;
+        $categoryChartData = Category::with(['transactions' => function ($query) use ($startOfMonth, $today) {
+            $query->whereBetween('date', [$startOfMonth, $today]);
+        }])->get()->mapWithKeys(function ($category) {
+            return [$category->name => $category->transactions->sum('value')];
+        })->sortDesc();
 
-        $categoryTotals = DB::table('categories')
-            ->join('category_transaction', 'categories.id', '=', 'category_transaction.category_id')
-            ->join('transactions', 'category_transaction.transaction_id', '=', 'transactions.id')
-            ->whereMonth('transactions.date', $currentMonth)
-            ->whereYear('transactions.date', $currentYear)
-            ->when($filterByParentIdNull, function ($query) {
-                return $query->whereNull('categories.parent_id');
-            })
-            ->groupBy('categories.id', 'categories.name')
-            ->select('categories.name', DB::raw('SUM(transactions.value) as total_value'))
-            ->orderBy('total_value', 'desc')
-            ->get();
-
-        return $categoryTotals->toArray();
+        return view('dashboard', [
+            'totalSpentThisMonth' => $totalSpentThisMonth,
+            'dailyAverage' => $dailyAverage,
+            'topCategoryName' => $topCategoryName,
+            'topCategoryTotal' => $topCategoryTotal,
+            'categoryChartLabels' => $categoryChartData->keys(),
+            'categoryChartValues' => $categoryChartData->values(),
+        ]);
     }
 }
