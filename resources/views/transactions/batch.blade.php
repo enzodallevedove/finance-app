@@ -43,7 +43,7 @@
                                             <td>
                                                 <select name="transactions[{{ $i }}][category_id]" class="form-control">
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
@@ -113,7 +113,7 @@
                 <td>
                     <select name="transactions[${rowCount}][category_id]" class="form-control">
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
                         @endforeach
                     </select>
                 </td>

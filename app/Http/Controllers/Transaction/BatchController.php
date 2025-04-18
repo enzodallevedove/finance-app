@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentOption;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 class BatchController extends Controller
 {
@@ -19,11 +20,13 @@ class BatchController extends Controller
          */
         $user = Auth::user();
 
-        $categories = $user
+        $userCategories = $user
             ->categories()
             ->whereNull('parent_id')
             ->with('children')
             ->get();
+
+        $categories = $this->buildCategoriesArray($userCategories);
 
         $paymentOptions = PaymentOption::all();
 
@@ -46,5 +49,26 @@ class BatchController extends Controller
         }
 
         return redirect()->route('transactions.index')->with('success', 'Transações salvas com sucesso!');
+    }
+
+    private function buildCategoriesArray(Collection $categories, int $level = 0): array
+    {
+        $result = [];
+
+        foreach ($categories as $category) {
+            $result[] = [
+                'id' => $category->id,
+                'name' => str_repeat('---', $level) . ($level !== 0 ? ' ' : '') . $category->name
+            ];
+
+            if ($category->children->isNotEmpty()) {
+                $result = array_merge(
+                    $result,
+                    $this->buildCategoriesArray($category->children, $level + 1)
+                );
+            }
+        }
+
+        return $result;
     }
 }
